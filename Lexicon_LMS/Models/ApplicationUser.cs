@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace Lexicon_LMS.Models
 {
     public class ApplicationUser : IdentityUser
     {
-//        public ICollection<ApplicationUserGymClass> AttendedClasses { get; set; }
-
+       
         public string Name { get; set; }
-//        public int Age { get; set; }
 
-    }
+		public ICollection<Course> Courses { get; set; }
+
+	}
 }
