@@ -28,8 +28,8 @@ namespace Lexicon_LMS.Models
 		[DataType(DataType.Date)]
 		public DateTime EndTime { get; set; }
 
-		//[Display(Name = "Aktivitet")]
-		//public ICollection<ActivityModel> ModuleActivities { get; set; }
+		[Display(Name = "Aktivitet")]
+		public ICollection<ActivityModel> ModuleActivities { get; set; }
 
 	}
 }

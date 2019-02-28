@@ -8,7 +8,7 @@ namespace Lexicon_LMS.Models
        
         public string Name { get; set; }
 
-		public ICollection<Course> Courses { get; set; }
+		public ICollection<ApplicationUserCourse> Courses { get; set; }
 
 	}
 }
