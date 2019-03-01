@@ -26,5 +26,7 @@ namespace Lexicon_LMS.Data
 
 		public DbSet<ApplicationUserCourse> UserCourse { get; set; }
 
+		public DbSet<Module> Module { get; set; }
+
 	}
 }
