@@ -9,8 +9,9 @@ namespace Lexicon_LMS.Models
         [Required]
         public int Id { get; set; }
 
-        // foreign key 
-        public int ActivityTypeId { get; set; }
+		// foreign key
+		
+		public int ActivityTypeId { get; set; }
         // navigation reference
         public ActivityType ActivityType { get; set; }
 

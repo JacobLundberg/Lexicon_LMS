@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace Lexicon_LMS.Models
 {
@@ -20,8 +22,11 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
 
-        // public ICollection<Module> Modules { get; set; }  // Collection with Modules in Course. To be activated when Module is implemented.
-    }
+        public ICollection<Module> Modules { get; set; }
+
+		[Display(Name = "Användare")]
+		public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+	}
 }
 
 
