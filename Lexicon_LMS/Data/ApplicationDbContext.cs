@@ -28,5 +28,7 @@ namespace Lexicon_LMS.Data
 
 		public DbSet<Module> Module { get; set; }
 
+		public DbSet<ActivityModel> ActivityModel { get; set; }
+
 	}
 }
