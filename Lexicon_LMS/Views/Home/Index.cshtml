@@ -3,22 +3,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<h1 class="display-4">Welcome</h1>
+	<h1 class="display-4">To</h1>
+	<h1 class="display-4">Lexicon LMS</h1>
+
+	@*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
 </div>
 
 
-@{
-    //=== TEST ======
-    if (User.IsInRole("Teacher"))
-    {
-        <p>UserRole: <b>Teacher</b> </p>
-        <p>Skapa ny användare: <br /><b>/Identity/Account/Create</b></p>
-    }
-    else if (User.IsInRole("Student"))
-    {
-        <p>UserRole: <b>Student</b></p>
-    }
-    //=== TEST ======
-
-}
