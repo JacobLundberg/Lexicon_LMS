@@ -31,5 +31,7 @@ namespace Lexicon_LMS.Models
 		[Display(Name = "Aktivitet")]
 		public ICollection<ActivityModel> ModuleActivities { get; set; }
 
-	}
+        // Navigational reference 
+        public int? CourseId { get; set; }
+    }
 }

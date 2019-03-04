@@ -10,10 +10,12 @@ namespace Lexicon_LMS.Models
         public int Id { get; set; }
 
 		// foreign key
-		
 		public int ActivityTypeId { get; set; }
         // navigation reference
         public ActivityType ActivityType { get; set; }
+
+        // Navigational reference 
+        public int? ModuleId { get; set; }
 
         [Required]
         [Display(Name = "Namn")]
