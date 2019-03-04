@@ -20,6 +20,7 @@ namespace Lexicon_LMS.Models
         public string Description { get; set; }
 
         [Display(Name = "Startdatum")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
         public ICollection<Module> Modules { get; set; }
