@@ -23,11 +23,12 @@ namespace Lexicon_LMS.Models
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
+        [Display(Name = "Moduler")]
         public ICollection<Module> Modules { get; set; }
 
-		[Display(Name = "Användare")]
-		public ICollection<ApplicationUser> ApplicationUsers { get; set; }
-	}
+        [Display(Name = "Användare")]
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+    }
 }
 
 
