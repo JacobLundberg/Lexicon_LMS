@@ -53,11 +53,11 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
             [Required(ErrorMessage = "{0} måste anges")]
             [StringLength(100, ErrorMessage = "{0}et måste var minst {2} och högst {1} tecken långt.", MinimumLength = 6)]
-            // [DataType(DataType.Password)]
+            [DataType(DataType.Password)]
             [Display(Name = "Lösenord")]
             public string Password { get; set; }
 
-            // [DataType(DataType.Password)]
+            [DataType(DataType.Password)]
             [Display(Name = "Upprepa lösenord")]
             [Compare("Password", ErrorMessage = "Lösenorden är inte lika.")]
             public string ConfirmPassword { get; set; }
