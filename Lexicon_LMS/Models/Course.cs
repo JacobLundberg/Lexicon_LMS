@@ -27,7 +27,7 @@ namespace Lexicon_LMS.Models
         public ICollection<Module> Modules { get; set; }
 
         [Display(Name = "Användare")]
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public ICollection<ApplicationUserCourse> ApplicationUsers { get; set; }
     }
 }
 
