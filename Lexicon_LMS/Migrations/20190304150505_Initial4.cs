@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lexicon_LMS.Migrations
 {
-    public partial class migrate1 : Migration
+    public partial class Initial4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -244,11 +244,11 @@ namespace Lexicon_LMS.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActivityTypeId = table.Column<int>(nullable: false),
+                    ModuleId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     StopDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    ModuleId = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
