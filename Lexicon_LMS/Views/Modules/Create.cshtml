@@ -1,12 +1,10 @@
 ﻿@model Lexicon_LMS.Models.Module
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Skapa Modul";
 }
 
-<h1>Create</h1>
-
-<h4>Module</h4>
+<h1>Skapa Modul i kurs: @ViewData["LastCourse"].ToString()</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -40,7 +38,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-sm btn-primary" asp-controller="Courses" asp-action="Details" id="@Model.CourseId"><i class="fas fa-undo-alt"></i> Tillbaka till Kursdetaljer</a>
 </div>
 
 @section Scripts {

@@ -19,15 +19,12 @@
             <strong>@TempData["newUser"]</strong><br />
             @TempData["newUserData"]
         </div>
-
-
     }
 }
 
-
-<table class="table">
+<table class="table table-hover table-condensed">
     <thead>
-        <tr class="tablecell">
+        <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -37,7 +34,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
-            <th></th>
+            <th>
+                #@Html.DisplayNameFor(model => model.Modules)
+            </th>
+            <th>
+                #@Html.DisplayNameFor(model => model.ApplicationUsers)
+            </th>
+            <th>
+
+            </th>
         </tr>
 
     </thead>
@@ -45,21 +50,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="tablecell">
+            <tr title="Klicka för att visa dataljer & lägga till moduler." onclick="window.location.href='/Courses/Details/@item.Id'">
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modules.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modules.Count)
+                </td>
+                <td>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
+
                 </td>
             </tr>
         }

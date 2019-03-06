@@ -123,9 +123,10 @@ namespace Lexicon_LMS
                     {
                         var courseIds = context.Course.Select(a => a.Id).ToArray();
                         var modules = new List<Module>();
-                        modules.Add(new Module { Name = "C# Grunderna", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Grunderna i Microsoft C#.", StartTime = DateTime.Parse("2019-03-28"), EndTime = DateTime.Parse("2019-03-29") });
-                        modules.Add(new Module { Name = "C# Konsol", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Skapa ett konsolprogram.", StartTime = DateTime.Parse("2019-03-30"), EndTime = DateTime.Parse("2019-04-02") });
-                        modules.Add(new Module { Name = "C# Generics", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Generics i Microsoft C#.", StartTime = DateTime.Parse("2019-04-03"), EndTime = DateTime.Parse("2019-04-05") });
+                        modules.Add(new Module { Name = "Grunderna", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Grunderna i Microsoft...", StartTime = DateTime.Parse("2019-03-28"), EndTime = DateTime.Parse("2019-03-29") });
+                        modules.Add(new Module { Name = "Konsol", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Skapa ett konsolprogram.", StartTime = DateTime.Parse("2019-03-30"), EndTime = DateTime.Parse("2019-04-02") });
+                        modules.Add(new Module { Name = "Generics", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Så fungerar Generics!", StartTime = DateTime.Parse("2019-04-03"), EndTime = DateTime.Parse("2019-04-05") });
+                        modules.Add(new Module { Name = "UX", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Förhöj användarupplevelsen.", StartTime = DateTime.Parse("2019-04-18"), EndTime = DateTime.Parse("2019-04-20") });
                         //context.Module.RemoveRange(context.Module);
                         context.Module.AddRange(modules);
                         context.SaveChanges();
