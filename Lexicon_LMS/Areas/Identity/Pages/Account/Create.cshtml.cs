@@ -126,7 +126,12 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    TempData["newUser"] = "Skapade " + Input.Role;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+                    string roll = "";
+                    if (Input.Role == "Teacher")
+                        roll = "lärare";
+                    else
+                        roll = "elev";
+                    TempData["newUser"] = "Skapade ny " + roll;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
                     TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
 
                     // return LocalRedirect(returnUrl);

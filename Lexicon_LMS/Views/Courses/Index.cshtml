@@ -1,54 +1,67 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Course>
 
 @{
-	ViewData["Title"] = "Kurser";
+    ViewData["Title"] = "Kurser";
 }
 
 <h1>Kurser</h1>
 
 <p>
-	<a class="btn btn-primary" asp-action="Create">Skapa ny kurs</a>
+    <a class="btn btn-primary" asp-action="Create">Skapa ny kurs</a>
 </p>
 
-	
-	<table class="table">
-		<thead>
-			<tr class="tablecell">
-				<th>
-					@Html.DisplayNameFor(model => model.Name)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Description)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.StartDate)
-				</th>
-				<th></th>
-			</tr>
+@{ if (TempData["newUser"] != null)
+    {
+        //TempData["newUser"] = "Skapade ny " + Input.Role;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+        //TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
 
-		</thead>
+        <div class="alert alert-success">
+            <strong>@TempData["newUser"]</strong><br />
+            @TempData["newUserData"]
+        </div>
 
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr class="tablecell">
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">
-							@Html.DisplayFor(modelItem => item.Name)
-						</a>
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">
-							@Html.DisplayFor(modelItem => item.Description)
-						</a>
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">
-							@Html.DisplayFor(modelItem => item.StartDate)
-						</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-	
+
+    }
+}
+
+
+<table class="table">
+    <thead>
+        <tr class="tablecell">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="tablecell">
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
