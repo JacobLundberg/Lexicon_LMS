@@ -1,5 +1,6 @@
 ﻿using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lexicon_LMS.Controllers
 {
+    [Authorize(Roles = "Teacher,Student")]
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;

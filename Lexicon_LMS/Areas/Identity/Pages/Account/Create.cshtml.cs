@@ -1,4 +1,5 @@
-﻿using System;using Lexicon_LMS.Models;
+﻿using System;
+using Lexicon_LMS.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
@@ -10,6 +11,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
 
 namespace Lexicon_LMS.Areas.Identity.Pages
 {
@@ -21,23 +26,29 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
+        public object ViewBag { get; private set; }
+
+        //public string UserRole { get; set; }
 
         public class InputModel
         {
@@ -53,11 +64,11 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
             [Required(ErrorMessage = "{0} måste anges")]
             [StringLength(100, ErrorMessage = "{0}et måste var minst {2} och högst {1} tecken långt.", MinimumLength = 6)]
-            // [DataType(DataType.Password)]
+            [DataType(DataType.Password)]
             [Display(Name = "Lösenord")]
             public string Password { get; set; }
 
-            // [DataType(DataType.Password)]
+            [DataType(DataType.Password)]
             [Display(Name = "Upprepa lösenord")]
             [Compare("Password", ErrorMessage = "Lösenorden är inte lika.")]
             public string ConfirmPassword { get; set; }
@@ -66,12 +77,21 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             [Display(Name = "Användartyp")]
             public string Role { get; set; }
 
-            // public IEnumerable<SelectListItem> Roles {get; set;}
+            [Display(Name= "Select")]
+            public IEnumerable<SelectListItem> Roles { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
+            if (Input == null)
+            {
+                Input = new InputModel();
+                Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
+            }
+
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -81,12 +101,14 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
                     //--- Koppla User till Role ---------------------
-                    var svar = await _userManager.AddToRoleAsync(user, Input.Role);  // roleManager???
+                    var svar = await _userManager.AddToRoleAsync(user, Input.Role);
                     if (!svar.Succeeded)
                     {
                         throw new Exception(string.Join("\n", svar.Errors));
@@ -103,7 +125,12 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                     //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+
+                    TempData["newUser"] = "Skapade " + Input.Role;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+                    TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
+
+                    // return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Courses");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -112,6 +139,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             }
 
             // If we got this far, something failed, redisplay form
+            Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
             return Page();
         }
     }
