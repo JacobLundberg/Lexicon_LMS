@@ -44,9 +44,11 @@ namespace Lexicon_LMS
         }
 
         // GET: Modules/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(int? courseId)
         {
-            return View();
+            var @module = new Module { CourseId = courseId };
+                return View(@module);
         }
 
         // POST: Modules/Create
@@ -54,7 +56,7 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime")] Module @module)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime,CourseId")] Module @module)
         {
             if (ModelState.IsValid)
             {

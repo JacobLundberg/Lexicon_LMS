@@ -24,6 +24,7 @@ namespace Lexicon_LMS.Controllers
             return View(await _context
                 .Course
                 .Include("Modules")
+                .Include("ActivityModels")
                 .ToListAsync());
         }
 

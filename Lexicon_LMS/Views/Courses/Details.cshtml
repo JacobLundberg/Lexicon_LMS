@@ -1,21 +1,15 @@
-﻿@model Lexicon_LMS.Models.Course
+﻿@using Microsoft.AspNetCore.Http
+@model Lexicon_LMS.Models.Course
 
 @{
     ViewData["Title"] = "Kursdetaljer ";
-    ViewData["LastCourse"] = Model.Name;
+    TempData["LastCourseName"] = Model.Name;
 }
 
 <h1>@Html.DisplayFor(model => model.Name)</h1>
-@ViewBag
 <div>
     <hr />
     <dl class="row">
-        @*<dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -31,8 +25,55 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Redigera kurs @Html.DisplayFor(model => model.Name)</a>&nbsp;&nbsp;
-    <a class="btn btn-primary" asp-controller="Modules" asp-action="Create" asp-route-id="@Model.Id">Addera modul till @Html.DisplayFor(model => model.Name)</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-grade="5" asp-route-id="@Model.Id">Redigera kurs @Html.DisplayFor(model => model.Name)</a>
+    <hr />
+    <h2>Moduler i @Html.DisplayFor(model => model.Name)</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Modul
+                </th>
+                <th>
+                    Beskrivning
+                </th>
+                <th>
+                    Startdatum
+                </th>
+                <th>
+                    Slutdatum
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+<hr />
+
+    <a class="btn btn-primary" asp-controller="Modules" asp-action="Create" asp-route-CourseId="@Model.Id">Addera modul till @Html.DisplayFor(model => model.Name)</a>
     <br />
     <br />
     <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
