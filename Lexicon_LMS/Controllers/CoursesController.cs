@@ -23,9 +23,16 @@ namespace Lexicon_LMS.Controllers
         {
             return View(await _context
                 .Course
-                .Include("Modules")
-//                .Include("ActivityModels")
+                .Include(m => m.Modules)
+                .ThenInclude(ma => ma.ModuleActivities)
+                .ThenInclude(at => at.ActivityType)
                 .ToListAsync());
+
+            //return View(await _context
+            //    .Course
+            //    .Include("Modules")
+            //    .ThenInclude("ActivityModels")
+            //    .ToListAsync());
         }
 
         // GET: Courses/Details/5

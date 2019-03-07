@@ -25,20 +25,20 @@
 <table class="table table-hover table-condensed">
     <thead>
         <tr>
-            <th>
+            <th title="Kursens namn">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th title="Kursbeskrivning">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            <th title="Kursens startdatum">
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
-            <th>
-                #@Html.DisplayNameFor(model => model.Modules)
+            <th title="Antal moduler som ingår i kursen">
+                Antal @Html.DisplayNameFor(model => model.Modules)
             </th>
-            <th>
-                #@Html.DisplayNameFor(model => model.ApplicationUsers)
+            <th title="Antal studenter som är inskrivna på kursen">
+                Antal @Html.DisplayNameFor(model => model.ApplicationUsers)
             </th>
             <th>
 
@@ -50,7 +50,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr title="Klicka för att visa dataljer & lägga till moduler." onclick="window.location.href='/Courses/Details/@item.Id'">
+
+            <tr title="Klicka för att visa dataljer & lägga till moduler." onclick="window.location.href='Courses/Details/@item.Id'">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -60,11 +61,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
-                <td>
+                <td align="right">
                     @Html.DisplayFor(modelItem => item.Modules.Count)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Modules.Count)
+                <td align="right">
+                    @Html.DisplayFor(modelItem => item.ApplicationUsers.Count)
                 </td>
                 <td>
                     <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>

@@ -65,9 +65,9 @@
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">Redigera</a> &nbsp;
-                        <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
-                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Radera</a>
+                        <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id">Redigera</a> &nbsp;
+                        <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
+                        <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id">Radera</a>
                     </td>
                 </tr>
             }
