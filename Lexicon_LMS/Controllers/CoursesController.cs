@@ -24,7 +24,7 @@ namespace Lexicon_LMS.Controllers
             return View(await _context
                 .Course
                 .Include("Modules")
-                .Include("ActivityModels")
+//                .Include("ActivityModels")
                 .ToListAsync());
         }
 
@@ -37,7 +37,9 @@ namespace Lexicon_LMS.Controllers
             }
 
             var course = await _context.Course
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include("Modules")
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (course == null)
             {
                 return NotFound();

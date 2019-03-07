@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace Lexicon_LMS
 {
@@ -62,7 +63,9 @@ namespace Lexicon_LMS
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var url = "~/Courses/Details/" + @module.CourseId;
+                return LocalRedirect(url);
+                //   return RedirectToAction(nameof(Index));
             }
             return View(@module);
         }
