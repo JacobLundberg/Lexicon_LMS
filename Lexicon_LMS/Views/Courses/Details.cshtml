@@ -47,7 +47,7 @@
                 <th>
                     Slutdatum
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
@@ -66,17 +66,18 @@
                     <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
-                    <td>
+                    @*<td>
                         <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
                         <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
                         <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
-                    </td>
+                    </td>*@
                 </tr>
             }
 
         </tbody>
     </table>
     <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Create" asp-route-CourseId="@Model.Id"><i class="fas fa-plus"></i> Lägg till modul</a>
+    
     <hr />
 
     <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>

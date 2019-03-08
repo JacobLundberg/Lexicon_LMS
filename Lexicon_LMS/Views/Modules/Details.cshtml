@@ -67,37 +67,38 @@
                 <th>
                     Beskrivning
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.ModuleActivities)
             {
                 <tr onclick="window.location.href='../../ActivityModels/Details/@item.Id'">
-                    <td>
+                    <td title="Klicka för att visa detaljer för aktivitet @item.Name.">
                         @Html.DisplayFor(modelItem => item.ActivityType.Name)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer för aktivitet @item.Name.">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer för aktivitet @item.Name.">
                         @Html.DisplayFor(modelItem => item.StartDate)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer för aktivitet @item.Name.">
                         @Html.DisplayFor(modelItem => item.StopDate)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer för aktivitet @item.Name.">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    @*<td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>*@
                 </tr>
             }
         </tbody>
     </table>
-
+    <a class="btn btn-sm btn-primary" asp-controller="ActivityModels" asp-action="Create" asp-route-CourseId="@Model.Id"><i class="fas fa-plus"></i> Lägg till aktivitet</a>
+    <hr />
     <a class="btn btn-sm btn-info" asp-controller="Courses" asp-action="Details" asp-route-id="@TempData.Peek("LastCourseId")"><i class="fas fa-undo-alt"></i> Tillbaka till kurs @TempData.Peek("LastCourseName")</a>
 </div>

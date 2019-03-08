@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lexicon_LMS.Data;
+using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Lexicon_LMS.Data;
-using Lexicon_LMS.Models;
-using Microsoft.AspNetCore.Routing;
 
 namespace Lexicon_LMS
 {
@@ -35,8 +32,10 @@ namespace Lexicon_LMS
             }
 
             var @module = await _context.Module
-                .Include("ModuleActivities")
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(ma => ma.ModuleActivities)
+                .ThenInclude(ac => ac.ActivityType)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (@module == null)
             {
                 return NotFound();
