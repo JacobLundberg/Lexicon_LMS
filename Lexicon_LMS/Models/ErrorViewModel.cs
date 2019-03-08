@@ -1,0 +1,11 @@
+using System;using Lexicon_LMS.Models;
+
+namespace Lexicon_LMS.Models
+{
+    public class ErrorViewModel
+    {
+        public string RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}

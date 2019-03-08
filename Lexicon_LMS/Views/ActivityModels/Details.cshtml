@@ -1,0 +1,44 @@
+﻿@model Lexicon_LMS.Models.ActivityModel
+
+@{
+    ViewData["Title"] = "Details " + @Html.DisplayFor(model => model.Name);
+}
+
+<h1>@TempData.Peek("LastCourseName") / @TempData.Peek("LastModuleName") / @Html.DisplayFor(model => model.Name)</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ActivityType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ActivityType.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StopDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StopDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera aktivitet @Html.DisplayFor(model => model.Name)</a>
+    &nbsp;
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera aktivitet @Html.DisplayFor(model => model.Name)</a>
+    <hr />
+    <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@TempData.Peek("LastModuleId")"><i class="fas fa-undo-alt"></i> Tillbaka till modul @TempData.Peek("LastModuleName")</a>
+</div>

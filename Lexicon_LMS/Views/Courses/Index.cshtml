@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Lexicon_LMS.Models.Course>
+
+@{
+    ViewData["Title"] = "Kurser";
+}
+
+<h1>Kurser</h1>
+
+<p>
+    <a class="btn btn-sm btn-primary" asp-action="Create"><i class="fas fa-plus"></i> Skapa ny kurs
+    </a>
+</p>
+
+@{ if (TempData["newUser"] != null)
+    {
+        //TempData["newUser"] = "Skapade ny " + Input.Role;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+        //TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
+
+        <div class="alert alert-success">
+            <strong>@TempData["newUser"]</strong><br />
+            @TempData["newUserData"]
+        </div>
+    }
+}
+
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th title="Kursens namn">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th title="Kursbeskrivning">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th title="Kursens startdatum">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th title="Antal moduler som ingår i kursen">
+                Antal&nbsp;@Html.DisplayNameFor(model => model.Modules)
+            </th>
+            <th title="Antal studenter som är inskrivna på kursen">
+                Antal&nbsp;@Html.DisplayNameFor(model => model.ApplicationUsers)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string moduleTitle = "";
+            foreach (var m in item.Modules)
+            {
+                moduleTitle = moduleTitle + "\n" + m.Name;
+            }
+            @if (moduleTitle == "")
+            {
+                moduleTitle = "Inga moduler i "+item.Name+"!";
+            }
+            else
+            {
+                moduleTitle = "Moduler i " + item.Name + ": " + moduleTitle;
+            }
+            
+
+            string userTitle = "";
+            foreach (var u in item.ApplicationUsers)
+            {
+                userTitle = userTitle + "\n" + u.ApplicationUser.Name;
+            }
+            @if (userTitle == "")
+            {
+                userTitle = "Inga Användare på " + item.Name + "!";
+            }
+            else
+            {
+                userTitle = "Användare på " + item.Name+ ": " + userTitle;
+            }
+
+
+
+            <tr onclick="window.location.href='Courses/Details/@item.Id'">
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td align="right" title="@moduleTitle">
+                    @Html.DisplayFor(modelItem => item.Modules.Count)
+                </td>
+                <td align="right" title="@userTitle">
+                    @Html.DisplayFor(modelItem => item.ApplicationUsers.Count)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
