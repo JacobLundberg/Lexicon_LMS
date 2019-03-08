@@ -10,6 +10,7 @@ namespace Lexicon_LMS.Models
         public int Id { get; set; }
 
         // foreign key
+        [Display(Name = "Aktivitetstyp")]
         public int? ActivityTypeId { get; set; }
         // navigation reference
         [Display(Name = "Aktivitetstyp")]
