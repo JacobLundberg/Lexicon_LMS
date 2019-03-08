@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Lexicon_LMS.Data;
+using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Lexicon_LMS.Data;
-using Lexicon_LMS.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lexicon_LMS
 {
@@ -49,7 +48,13 @@ namespace Lexicon_LMS
         public IActionResult Create()
         {
             ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name");
-            return View();
+
+            var @activityModel = new ActivityModel
+            { ModuleId = int.Parse(TempData.Peek("LastModuleId").ToString()),
+                StartDate = DateTime.Parse(TempData.Peek("LastModuleStartDate").ToString().Replace("00:00:00","09:00:00")),
+                StopDate = DateTime.Parse(TempData.Peek("LastModuleStartDate").ToString().Replace("00:00:00", "12:15:00"))
+            };
+            return View(@activityModel);
         }
 
         // POST: ActivityModels/Create
@@ -57,13 +62,15 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ActivityTypeId,Name,StartDate,StopDate,Description")] ActivityModel activityModel)
+        public async Task<IActionResult> Create([Bind("Id,ActivityTypeId,Name,StartDate,StopDate,Description,ModuleId")] ActivityModel activityModel)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(activityModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var url = "~/Modules/Details/" + activityModel.ModuleId;
+                return LocalRedirect(url);
+//                return RedirectToAction(nameof(Index));
             }
             ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name", activityModel.ActivityTypeId);
             return View(activityModel);
