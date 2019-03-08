@@ -1,38 +1,82 @@
-﻿@model Lexicon_LMS.Models.Course
+﻿@using Microsoft.AspNetCore.Http
+@model Lexicon_LMS.Models.Course
 
 @{
-	ViewData["Title"] = "Kursdetaljer ";
+    ViewData["Title"] = "Kursdetaljer ";
+    TempData["LastCourseName"] = Model.Name;
+    TempData["LastCourseStartDate"] = Model.StartDate.ToString();
+    TempData["LastCourseStopDate"] = Model.StartDate.ToString();
 }
 
 <h1>@Html.DisplayFor(model => model.Name)</h1>
-
 <div>
-	<hr />
-	<dl class="row">
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Name)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Name)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Description)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Description)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.StartDate)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.StartDate)
-		</dd>
-	</dl>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+    </dl>
 </div>
 <div>
-	<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Redigera</a>&nbsp;&nbsp;<a class="btn btn-primary" asp-action="Create" asp-route-id="@Model.Id">Lägg till Moduler</a>
-	<br />
-	<br />
-	<a class="btn btn-sm btn-primary" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
+    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera kurs @Html.DisplayFor(model => model.Name)</a>
+<br />
+    <br />
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Modul
+                </th>
+                <th>
+                    Beskrivning
+                </th>
+                <th>
+                    Startdatum
+                </th>
+                <th>
+                    Slutdatum
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Modules)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
+                        <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
+                        <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Create" asp-route-CourseId="@Model.Id"><i class="fas fa-plus"></i> Lägg till modul</a>
+    <hr />
+
+    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
 </div>
 

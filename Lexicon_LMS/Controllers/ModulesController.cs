@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace Lexicon_LMS
 {
@@ -44,9 +45,14 @@ namespace Lexicon_LMS
         }
 
         // GET: Modules/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(int? courseId)
         {
-            return View();
+            var @module = new Module { CourseId = courseId,
+          StartTime = DateTime.Parse(TempData["LastCourseStartDate"].ToString()),
+          EndTime = DateTime.Parse(TempData["LastCourseStopDate"].ToString())
+            };
+                return View(@module);
         }
 
         // POST: Modules/Create
@@ -54,13 +60,15 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime")] Module @module)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime,CourseId")] Module @module)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var url = "~/Courses/Details/" + @module.CourseId;
+                return LocalRedirect(url);
+                //   return RedirectToAction(nameof(Index));
             }
             return View(@module);
         }
