@@ -25,7 +25,7 @@ namespace Lexicon_LMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ActivityTypeId");
+                    b.Property<int?>("ActivityTypeId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -292,8 +292,7 @@ namespace Lexicon_LMS.Migrations
                 {
                     b.HasOne("Lexicon_LMS.Models.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("ActivityTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActivityTypeId");
 
                     b.HasOne("Lexicon_LMS.Models.Module")
                         .WithMany("ModuleActivities")

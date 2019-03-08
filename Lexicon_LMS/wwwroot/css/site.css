@@ -1,7 +1,37 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+h1:hover {
+    text-shadow: 0px 0px 4px grey;
+}
 
+.splashLexiconBg {
+    animation: bg_anim 4s;
+    background-image: url('../img/lexicon.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+
+@keyframes bg_anim {
+    0% {
+        background-image: url('../img/lexicon.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    25% {
+        text-shadow: 800px 5px 3px #dddddd;
+    }
+
+    50% {
+        text-shadow: 50px 5px 4px #cccccc;
+    }
+
+    75% {
+        background-size: auto;
+    }
+}
 
 .LMStooltip {
     position: relative;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lexicon_LMS.Migrations
 {
-    public partial class init5 : Migration
+    public partial class init7 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -236,7 +236,7 @@ namespace Lexicon_LMS.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ActivityTypeId = table.Column<int>(nullable: false),
+                    ActivityTypeId = table.Column<int>(nullable: true),
                     ModuleId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
@@ -251,7 +251,7 @@ namespace Lexicon_LMS.Migrations
                         column: x => x.ActivityTypeId,
                         principalTable: "ActivityType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ActivityModel_Module_ModuleId",
                         column: x => x.ModuleId,
