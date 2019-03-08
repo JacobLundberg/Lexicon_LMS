@@ -26,6 +26,8 @@ namespace Lexicon_LMS.Controllers
                 .Include(m => m.Modules)
                 .ThenInclude(ma => ma.ModuleActivities)
                 .ThenInclude(at => at.ActivityType)
+                .Include(auc => auc.ApplicationUsers)
+                .ThenInclude(au => au.ApplicationUser)
                 .ToListAsync());
 
             //return View(await _context
