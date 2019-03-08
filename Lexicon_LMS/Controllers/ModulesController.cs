@@ -35,6 +35,7 @@ namespace Lexicon_LMS
             }
 
             var @module = await _context.Module
+                .Include("ModuleActivities")
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@module == null)
             {

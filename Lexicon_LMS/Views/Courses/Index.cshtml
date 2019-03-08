@@ -57,25 +57,30 @@
                 moduleTitle = moduleTitle + "\n"+m.Name;
             }
 
+            string userTitle = "Användare på kursen: ";
+            foreach (var u in item.ApplicationUsers)
+            {
+                userTitle = userTitle + "\n" + u.ApplicationUser.Name;
+            }
+
 
             <tr onclick="window.location.href='Courses/Details/@item.Id'">
-                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                <td title="Klicka för att visa detaljer & lägga till moduler.">
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
                 <td align="right" title="@moduleTitle">
                     @Html.DisplayFor(modelItem => item.Modules.Count)
                 </td>
-                <td align="right" title="Klicka för att visa dataljer & lägga till moduler.">
+                <td align="right" title="@userTitle">
                     @Html.DisplayFor(modelItem => item.ApplicationUsers.Count)
                 </td>
                 <td>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Ta bort</a>
 
                 </td>
             </tr>

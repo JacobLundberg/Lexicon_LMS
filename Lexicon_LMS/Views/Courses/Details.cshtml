@@ -28,7 +28,9 @@
 </div>
 <div>
     <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera kurs @Html.DisplayFor(model => model.Name)</a>
-<br />
+&nbsp;
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera kurs</a>
+    <br />
     <br />
     <table class="table table-hover table-condensed">
         <thead>
@@ -51,17 +53,17 @@
         <tbody>
             @foreach (var item in Model.Modules)
             {
-                <tr>
-                    <td>
+                <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
                     <td>
@@ -77,6 +79,6 @@
     <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Create" asp-route-CourseId="@Model.Id"><i class="fas fa-plus"></i> Lägg till modul</a>
     <hr />
 
-    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
+    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>
 </div>
 

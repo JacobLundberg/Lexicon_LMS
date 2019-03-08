@@ -47,6 +47,7 @@ namespace Lexicon_LMS.Controllers
 
             var course = await _context.Course
                 .Include("Modules")
+                .Include("ApplicationUsers")
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
             if (course == null)

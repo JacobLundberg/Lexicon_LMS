@@ -1,21 +1,20 @@
 ﻿@model Lexicon_LMS.Models.Module
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Moduldetaljer";
 }
 
-<h1>Details</h1>
+<h1>@TempData["LastCourseName"] / @Html.DisplayFor(model => model.Name)</h1>
 
 <div>
-    <h4>Module</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -37,6 +36,15 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id">Redigera</a>
+    &nbsp;
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera modul</a>
+    <br />
+    <br />
+
+
+
+
+
     <a asp-action="Index">Back to List</a>
 </div>
