@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "Kursdetaljer ";
     TempData["LastCourseName"] = Model.Name;
+    TempData["LastCourseId"] = Model.Id;
     TempData["LastCourseStartDate"] = Model.StartDate.ToString();
-    TempData["LastCourseStopDate"] = Model.StartDate.ToString();
 }
 
 <h1>@Html.DisplayFor(model => model.Name)</h1>
@@ -28,7 +28,9 @@
 </div>
 <div>
     <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera kurs @Html.DisplayFor(model => model.Name)</a>
-<br />
+&nbsp;
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera kurs @Html.DisplayFor(model => model.Name)</a>
+    <br />
     <br />
     <table class="table table-hover table-condensed">
         <thead>
@@ -45,38 +47,58 @@
                 <th>
                     Slutdatum
                 </th>
-                <th></th>
+                <th>
+                    Antal&nbsp;Aktiviteter
+                </th>                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Modules)
             {
-                <tr>
-                    <td>
+
+                string activityTitle = "";
+                foreach (var m in item.ModuleActivities)
+                {
+                    activityTitle = activityTitle + "\n" + m.Name;
+                }
+                @if (activityTitle == "")
+                {
+                    activityTitle = "Inga aktiviteter i " + item.Name + "!";
+                }
+                else
+                {
+                    activityTitle = "Aktiviteter i " + item.Name + ": " + activityTitle;
+                }
+
+                <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
-                    <td>
+                    <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
-                    <td>
-                        <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
-                        <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
-                        <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
-                    </td>
+                    <td title="@activityTitle" align="center">
+                        @Html.DisplayFor(modelItem => item.ModuleActivities.Count)
+                    </td>                    @*<td>
+                    <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
+                    <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
+                    <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
+                </td>*@
                 </tr>
             }
 
         </tbody>
     </table>
     <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Create" asp-route-CourseId="@Model.Id"><i class="fas fa-plus"></i> Lägg till modul</a>
+    
     <hr />
 
-    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
+    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>
 </div>
 

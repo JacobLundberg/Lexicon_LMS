@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lexicon_LMS.Data;
+using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Lexicon_LMS.Data;
-using Lexicon_LMS.Models;
-using Microsoft.AspNetCore.Routing;
 
 namespace Lexicon_LMS
 {
@@ -35,12 +32,14 @@ namespace Lexicon_LMS
             }
 
             var @module = await _context.Module
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(ma => ma.ModuleActivities)
+                .ThenInclude(ac => ac.ActivityType)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (@module == null)
             {
                 return NotFound();
             }
-
             return View(@module);
         }
 
@@ -49,8 +48,8 @@ namespace Lexicon_LMS
         public IActionResult Create(int? courseId)
         {
             var @module = new Module { CourseId = courseId,
-          StartTime = DateTime.Parse(TempData["LastCourseStartDate"].ToString()),
-          EndTime = DateTime.Parse(TempData["LastCourseStopDate"].ToString())
+          StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
+          EndTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString())
             };
                 return View(@module);
         }
