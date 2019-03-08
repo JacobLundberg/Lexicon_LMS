@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lexicon_LMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190306125827_init5")]
-    partial class init5
+    [Migration("20190308200557_init7")]
+    partial class init7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace Lexicon_LMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ActivityTypeId");
+                    b.Property<int?>("ActivityTypeId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -294,8 +294,7 @@ namespace Lexicon_LMS.Migrations
                 {
                     b.HasOne("Lexicon_LMS.Models.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("ActivityTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActivityTypeId");
 
                     b.HasOne("Lexicon_LMS.Models.Module")
                         .WithMany("ModuleActivities")
