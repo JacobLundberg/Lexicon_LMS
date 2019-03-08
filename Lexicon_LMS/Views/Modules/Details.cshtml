@@ -41,7 +41,7 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id">Redigera modul  @Html.DisplayFor(model => model.Name)</a>
+    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera modul @Html.DisplayFor(model => model.Name)</a>
     &nbsp;
     <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera modul  @Html.DisplayFor(model => model.Name)</a>
     <br />

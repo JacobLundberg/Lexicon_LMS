@@ -36,10 +36,10 @@
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th title="Antal moduler som ingår i kursen">
-                Antal @Html.DisplayNameFor(model => model.Modules)
+                Antal&nbsp;@Html.DisplayNameFor(model => model.Modules)
             </th>
             <th title="Antal studenter som är inskrivna på kursen">
-                Antal @Html.DisplayNameFor(model => model.ApplicationUsers)
+                Antal&nbsp;@Html.DisplayNameFor(model => model.ApplicationUsers)
             </th>
             <th>
 
@@ -51,17 +51,35 @@
     <tbody>
         @foreach (var item in Model)
         {
-            string moduleTitle = "Moduler i kursen: ";
+            string moduleTitle = "";
             foreach (var m in item.Modules)
             {
-                moduleTitle = moduleTitle + "\n"+m.Name;
+                moduleTitle = moduleTitle + "\n" + m.Name;
             }
+            @if (moduleTitle == "")
+            {
+                moduleTitle = "Inga moduler i "+item.Name+"!";
+            }
+            else
+            {
+                moduleTitle = "Moduler i " + item.Name + ": " + moduleTitle;
+            }
+            
 
-            string userTitle = "Användare på kursen: ";
+            string userTitle = "";
             foreach (var u in item.ApplicationUsers)
             {
                 userTitle = userTitle + "\n" + u.ApplicationUser.Name;
             }
+            @if (userTitle == "")
+            {
+                userTitle = "Inga Användare på " + item.Name + "!";
+            }
+            else
+            {
+                userTitle = "Användare på " + item.Name+ ": " + userTitle;
+            }
+
 
 
             <tr onclick="window.location.href='Courses/Details/@item.Id'">
@@ -80,9 +98,7 @@
                 <td align="right" title="@userTitle">
                     @Html.DisplayFor(modelItem => item.ApplicationUsers.Count)
                 </td>
-                <td>
-
-                </td>
+                <td></td>
             </tr>
         }
     </tbody>

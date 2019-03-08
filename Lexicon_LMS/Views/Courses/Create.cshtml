@@ -12,7 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,12 +26,12 @@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Skapa kurs" class="btn btn-primary" />
+                <input type="submit" value="Skapa kurs" class="btn btn-primary btn-sm" />
             </div>
         </form>
     </div>
 </div>
-
+<hr />
 <div>
     <a class="btn btn-sm btn-primary" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
 </div>

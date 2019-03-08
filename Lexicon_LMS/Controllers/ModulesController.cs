@@ -49,7 +49,7 @@ namespace Lexicon_LMS
         {
             var @module = new Module { CourseId = courseId,
           StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
-          EndTime = DateTime.Parse(TempData.Peek("LastCourseStopDate").ToString())
+          EndTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString())
             };
                 return View(@module);
         }

@@ -47,12 +47,29 @@
                 <th>
                     Slutdatum
                 </th>
-                @*<th></th>*@
+                <th>
+                    Antal&nbsp;Aktiviteter
+                </th>                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Modules)
             {
+
+                string activityTitle = "";
+                foreach (var m in item.ModuleActivities)
+                {
+                    activityTitle = activityTitle + "\n" + m.Name;
+                }
+                @if (activityTitle == "")
+                {
+                    activityTitle = "Inga aktiviteter i " + item.Name + "!";
+                }
+                else
+                {
+                    activityTitle = "Aktiviteter i " + item.Name + ": " + activityTitle;
+                }
+
                 <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
                     <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.Name)
@@ -66,11 +83,13 @@
                     <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
-                    @*<td>
-                        <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
-                        <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
-                        <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
-                    </td>*@
+                    <td title="@activityTitle" align="center">
+                        @Html.DisplayFor(modelItem => item.ModuleActivities.Count)
+                    </td>                    @*<td>
+                    <a class="btn btn-sm btn-primary" asp-controller="Modules" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i> Redigera</a> &nbsp;
+                    <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">Detaljer</a> &nbsp;
+                    <a class="btn btn-sm btn-danger" asp-controller="Modules" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Radera</a>
+                </td>*@
                 </tr>
             }
 
