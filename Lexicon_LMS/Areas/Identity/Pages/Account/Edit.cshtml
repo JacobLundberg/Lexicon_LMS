@@ -1,0 +1,91 @@
+﻿@page
+@model EditUserModel
+@{
+    ViewData["Title"] = "Redigera användare";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@{
+    // if (Model.Input.Roles != null)
+    if (Model.Input != null)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post" autocomplete="off">
+
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Role" style="padding-right:15px;"></label>
+                        <select id="Input.Role" name="Input.Role" asp-items="@Model.Input.Roles"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Name"></label>
+                        <input asp-for="Input.Name" class="form-control" />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <input asp-for="Input.OrgEmail" class="form-control" />
+
+                    @*<br />
+                        <h5>Lösenord ändras bara om nya anges</h5>
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>*@
+
+                    <button type="submit" class="btn btn-primary">Spara</button>
+
+                    @*@if (@Model.ReturnUrl != "")
+                    {
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a asp-route-returnurl="@Model.ReturnUrl">Tillbaka</a>
+
+                            </div>
+                        </div>
+                    }*@
+
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-4">
+                Hittade ingen användare
+            </div>
+        </div>
+        @if (@Model.ReturnUrl != "")
+        {
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="" asp-page="/Account/Index"> Tillbaka @Model.ReturnUrl</a>
+                </div>
+            </div>
+        }
+    }
+}
+@*ReturnUrl:  @Model.ReturnUrl*@
+<br />
+<a class="" asp-page="/Account/Index">Listning av användare</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
