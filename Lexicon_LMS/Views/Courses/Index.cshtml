@@ -7,7 +7,8 @@
 <h1>Kurser</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Skapa ny kurs</a>
+    <a class="btn btn-sm btn-primary" asp-action="Create"><i class="fas fa-plus"></i> Skapa ny kurs
+    </a>
 </p>
 
 @{ if (TempData["newUser"] != null)
@@ -19,25 +20,30 @@
             <strong>@TempData["newUser"]</strong><br />
             @TempData["newUserData"]
         </div>
-
-
     }
 }
 
-
-<table class="table">
+<table class="table table-hover table-condensed">
     <thead>
-        <tr class="tablecell">
-            <th>
+        <tr>
+            <th title="Kursens namn">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th title="Kursbeskrivning">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            <th title="Kursens startdatum">
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
-            <th></th>
+            <th title="Antal moduler som ingår i kursen">
+                Antal @Html.DisplayNameFor(model => model.Modules)
+            </th>
+            <th title="Antal studenter som är inskrivna på kursen">
+                Antal @Html.DisplayNameFor(model => model.ApplicationUsers)
+            </th>
+            <th>
+
+            </th>
         </tr>
 
     </thead>
@@ -45,21 +51,32 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="tablecell">
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
+            string moduleTitle = "Moduler i kursen: ";
+            foreach (var m in item.Modules)
+            {
+                moduleTitle = moduleTitle + "\n"+m.Name;
+            }
+
+
+            <tr onclick="window.location.href='Courses/Details/@item.Id'">
+                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td title="Klicka för att visa dataljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td align="right" title="@moduleTitle">
+                    @Html.DisplayFor(modelItem => item.Modules.Count)
+                </td>
+                <td align="right" title="Klicka för att visa dataljer & lägga till moduler.">
+                    @Html.DisplayFor(modelItem => item.ApplicationUsers.Count)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </a>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Ta bort</a>
+
                 </td>
             </tr>
         }
