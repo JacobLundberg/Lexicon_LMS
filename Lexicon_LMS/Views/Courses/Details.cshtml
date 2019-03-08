@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "Kursdetaljer ";
     TempData["LastCourseName"] = Model.Name;
+    TempData["LastCourseId"] = Model.Id;
     TempData["LastCourseStartDate"] = Model.StartDate.ToString();
-    TempData["LastCourseStopDate"] = Model.StartDate.ToString();
 }
 
 <h1>@Html.DisplayFor(model => model.Name)</h1>
@@ -29,7 +29,7 @@
 <div>
     <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt"></i> Redigera kurs @Html.DisplayFor(model => model.Name)</a>
 &nbsp;
-    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera kurs</a>
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="far fa-trash-alt"></i> Radera kurs @Html.DisplayFor(model => model.Name)</a>
     <br />
     <br />
     <table class="table table-hover table-condensed">

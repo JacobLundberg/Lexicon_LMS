@@ -41,7 +41,6 @@ namespace Lexicon_LMS
             {
                 return NotFound();
             }
-
             return View(@module);
         }
 
@@ -50,8 +49,8 @@ namespace Lexicon_LMS
         public IActionResult Create(int? courseId)
         {
             var @module = new Module { CourseId = courseId,
-          StartTime = DateTime.Parse(TempData["LastCourseStartDate"].ToString()),
-          EndTime = DateTime.Parse(TempData["LastCourseStopDate"].ToString())
+          StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
+          EndTime = DateTime.Parse(TempData.Peek("LastCourseStopDate").ToString())
             };
                 return View(@module);
         }

@@ -2,10 +2,10 @@
 @model Lexicon_LMS.Models.Module
 
 @{
-    ViewData["Title"] = "Skapa Modul";
+    ViewData["Title"] = "Skapa Modul i kurs: "+@TempData.Peek("LastCourseName");
 }
 
-<h1>Skapa Modul i kurs: @TempData["LastCourseName"]</h1>
+<h1>Skapa modul i kurs: @TempData.Peek("LastCourseName")</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,7 +42,7 @@
 </div>
 
 <div>
-    <a class="btn btn-sm btn-primary" asp-controller="Courses" asp-action="Details" id="@TempData["LastCourseId"]"><i class="fas fa-undo-alt"></i> Tillbaka till Kursdetaljer</a>
+    <a class="btn btn-sm btn-primary" asp-controller="Courses" asp-action="Details" id="@TempData.Peek("LastCourseId")"><i class="fas fa-undo-alt"></i> Tillbaka till kursdetaljer för @TempData.Peek("LastCourseId")"</a>
 </div>
 
 @section Scripts {
