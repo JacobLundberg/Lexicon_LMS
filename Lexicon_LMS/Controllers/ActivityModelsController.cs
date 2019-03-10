@@ -156,7 +156,9 @@ namespace Lexicon_LMS
             var activityModel = await _context.ActivityModel.FindAsync(id);
             _context.ActivityModel.Remove(activityModel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+//            return RedirectToAction(nameof(Index));
+            var url = "~/Modules/Details/" + TempData.Peek("LastModuleId");
+            return LocalRedirect(url);
         }
 
         private bool ActivityModelExists(int id)
