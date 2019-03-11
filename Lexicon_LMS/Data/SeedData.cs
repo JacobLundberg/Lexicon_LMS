@@ -54,20 +54,46 @@ namespace Lexicon_LMS
 
                     // Teacher
                     var newUser = new newUser();
-                    newUser.Name = "T Teacher";
+                    newUser.Name = "Dimitris";
                     newUser.Email = "t@t.com";
                     newUser.Password = "Teacher-1";
                     newUser.Role = "Teacher";
+                    await CreateUserAsync(userManager, roleManager, newUser);
 
+                    newUser = new newUser();
+                    newUser.Name = "Adrian";
+                    newUser.Email = "t2@t.com";
+                    newUser.Password = "Teacher-1";
+                    newUser.Role = "Teacher";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     // Student
                     newUser = new newUser();
-                    newUser.Name = "S Student";
+                    newUser.Name = "Fredrik";
                     newUser.Email = "s@s.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
 
+                    newUser = new newUser();
+                    newUser.Name = "Göran";
+                    newUser.Email = "s1@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Jacob";
+                    newUser.Email = "s2@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Göran";
+                    newUser.Email = "s3@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
 
