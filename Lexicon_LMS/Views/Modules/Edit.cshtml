@@ -36,7 +36,7 @@
                 <input type="hidden" asp-for="CourseId" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Spara" class="btn btn-primary btn-sm" />
+                <button type="submit" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Spara</button>
             </div>
         </form>
     </div>
@@ -44,7 +44,7 @@
 <br />
 <hr />
 <div>
-    <a class="class="btn btn-sm btn-info"" asp-controller="Courses" asp-action="Details" asp-route-id=" @TempData.Peek("LastCourseId")"><i class="fas fa-undo-alt"></i> Tillbaka till Kursdetaljer @TempData.Peek("LastCourseName")</a>
+    <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id=" @TempData.Peek("LastModuleId")"><i class="fas fa-undo-alt"></i> Tillbaka till moduldetaljer @TempData.Peek("LastModuleName")</a>
 </div>
 
 

@@ -41,7 +41,7 @@
         <input type="submit" value="Radera modul" class="btn btn-danger btn-sm" />
         <br />
         <hr />
-        <a class="class="btn btn-sm btn-info"" asp-controller="Course" asp-action="Details" asp-route-id="@TempData.Peek("LastModuleId")"><i class="fas fa-undo-alt"></i> Tillbaka till kursdetaljer för @TempData.Peek("LastCourseName")</a>
+        <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id=" @TempData.Peek("LastModuleId")"><i class="fas fa-undo-alt"></i> Tillbaka till Moduldetaljer @TempData.Peek("LastModuleName")</a>
 
     </form>
 </div>
