@@ -21,15 +21,13 @@ h1:hover {
     }
 
     25% {
-        text-shadow: 800px 5px 3px #dddddd;
+
     }
 
     50% {
-        text-shadow: 50px 5px 4px #cccccc;
     }
 
     75% {
-        background-size: auto;
     }
 }
 

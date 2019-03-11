@@ -1,0 +1,90 @@
+﻿@page
+@model UserModel
+@{
+    ViewData["Title"] = "Användare ";
+}
+<br />
+<h1>@ViewData["Title"]</h1>
+
+@{
+if (TempData["newUser"] != null)
+    {
+    <div class="alert alert-success">
+        <strong>@TempData["newUser"]</strong><br />
+        @{ if (@TempData["newUserData"] != null)
+            {
+                @TempData["newUserData"]
+            }
+        }
+    </div>
+    }
+}
+    <p>
+        <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Create">
+            <i class="fas fa-plus"></i> Lägg till Användare
+        </a>
+    </p>
+@{
+    if (@Model.Users != null)
+    {
+        <table class="table">
+            <thead>
+                <tr class="tablecell">
+                    <th>Namn</th>
+                    <th>Användarnamn</th>
+                    <th>Epost</th>
+                    <th>Användartyp</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr class="tablecell">
+                        <td>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Name</a>
+                        </td>
+                        <td>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Username</a>
+                        </td>
+                        <td>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Email</a>
+                        </td>
+                        <td>
+                            @item.Role
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                @*btn btn-primary*@
+                @*<a class="" asp-area="Identity" asp-page="/Account/Edit" asp-route-userEmail="@Model.Input.Email" asp-route-returnTo="details">Redigera</a>*@
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            Hittade ingen användare
+        </div>
+    }
+}
+
+@*
+    @if (@Model.ReturnUrl != "")
+        {
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <a asp-route-returnurl="@Model.ReturnUrl">Tillbaka</a>
+        </div>
+    </div>
+    }
+*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

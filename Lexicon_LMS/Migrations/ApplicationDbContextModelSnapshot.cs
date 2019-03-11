@@ -30,7 +30,7 @@ namespace Lexicon_LMS.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<int?>("ModuleId");
+                    b.Property<int>("ModuleId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -146,6 +146,9 @@ namespace Lexicon_LMS.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.ToTable("Course");
                 });
 
@@ -155,7 +158,7 @@ namespace Lexicon_LMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CourseId");
+                    b.Property<int>("CourseId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -296,7 +299,8 @@ namespace Lexicon_LMS.Migrations
 
                     b.HasOne("Lexicon_LMS.Models.Module")
                         .WithMany("ModuleActivities")
-                        .HasForeignKey("ModuleId");
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Lexicon_LMS.Models.ApplicationUserCourse", b =>
@@ -316,7 +320,8 @@ namespace Lexicon_LMS.Migrations
                 {
                     b.HasOne("Lexicon_LMS.Models.Course")
                         .WithMany("Modules")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
