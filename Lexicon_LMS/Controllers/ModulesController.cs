@@ -45,9 +45,9 @@ namespace Lexicon_LMS
 
         // GET: Modules/Create
         [HttpGet]
-        public IActionResult Create(int? courseId)
+        public IActionResult Create(int courseId)
         {
-            var @module = new Module { CourseId = courseId,
+            var @module = new Module {  CourseId = courseId,
           StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
           EndTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString())
             };

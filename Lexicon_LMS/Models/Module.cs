@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lexicon_LMS.Models
 {
@@ -32,6 +33,7 @@ namespace Lexicon_LMS.Models
         public ICollection<ActivityModel> ModuleActivities { get; set; }
 
         // Navigational reference 
-        public int? CourseId { get; set; }
+        [ForeignKey("CourseId")]
+		public int CourseId { get; set; }
     }
 }
