@@ -54,20 +54,39 @@ namespace Lexicon_LMS
 
                     // Teacher
                     var newUser = new newUser();
-                    newUser.Name = "T Teacher";
+                    newUser.Name = "Dimitris";
                     newUser.Email = "t@t.com";
                     newUser.Password = "Teacher-1";
                     newUser.Role = "Teacher";
-
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     // Student
                     newUser = new newUser();
-                    newUser.Name = "S Student";
+                    newUser.Name = "Fredrik";
                     newUser.Email = "s@s.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
 
+                    newUser = new newUser();
+                    newUser.Name = "Göran";
+                    newUser.Email = "s1@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Jacob";
+                    newUser.Email = "s2@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Göran";
+                    newUser.Email = "s3@s.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
 
@@ -91,11 +110,9 @@ namespace Lexicon_LMS
                     if (context.Course.Count() == 0)
                     {
                         var courses = new List<Course>();
-                        courses.Add(new Course { Name = "C#", Description = "Programmeringskurs i Microsoft C#.", StartDate = DateTime.Parse("2019-03-28") });
-                        courses.Add(new Course { Name = "C# Avancerad", Description = "Fortsättningskurs i Microsoft C#.", StartDate = DateTime.Parse("2019-04-18") });
-                        courses.Add(new Course { Name = "Java", Description = "Programmeringskurs i Java.", StartDate = DateTime.Parse("2019-05-05") });
-                        courses.Add(new Course { Name = "Python", Description = "Programmeringskurs i Python.", StartDate = DateTime.Parse("2019-05-13") });
-                        courses.Add(new Course { Name = "Visual Basic", Description = "Programmeringskurs i Visual Basic.", StartDate = DateTime.Parse("2019-05-22") });
+                        courses.Add(new Course { Name = ".NET Påbyggnadsutbildning", Description = "Programmeringskurs i Microsoft Core MVC.", StartDate = DateTime.Parse("2018-11-26") });
+                        courses.Add(new Course { Name = "Java", Description = "Programmeringskurs i Java.", StartDate = DateTime.Parse("2019-01-05") });
+                        courses.Add(new Course { Name = "Tekniker", Description = "Lär dig bli datatekniker.", StartDate = DateTime.Parse("2019-02-25") });
                         //context.Course.RemoveRange(context.Course);
                         context.Course.AddRange(courses);
                         context.SaveChanges();
@@ -104,29 +121,35 @@ namespace Lexicon_LMS
                     // Seed ApplicationUserCourse
                     if (context.UserCourse.Count() == 0)
                     {
-                        var courseIds = context.Course.Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
                         var userIds = context.Users.Select(a => a.Id).ToArray();
 
                         var userCourses = new List<ApplicationUserCourse>();
                         for (int i = 0; i < userIds.Length; i++)
-                                userCourses.Add(new ApplicationUserCourse { ApplicationUserId = userIds[i]
-                                    ,CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)]
-                                });
+                            userCourses.Add(new ApplicationUserCourse
+                            {
+                                ApplicationUserId = userIds[i]
+                                ,
+                                CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)]
+                            });
 
                         //context.Course.RemoveRange(context.Course);
                         context.UserCourse.AddRange(userCourses);
                         context.SaveChanges();
                     }
 
-                    // Seed Module
+                    // Seed Module .NET Påbyggnadsutbildning
                     if (context.Module.Count() == 0)
                     {
-                        var courseIds = context.Course.Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
                         var modules = new List<Module>();
-                        modules.Add(new Module { Name = "Grunderna", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Grunderna i Microsoft...", StartTime = DateTime.Parse("2019-03-28"), EndTime = DateTime.Parse("2019-03-29") });
-                        modules.Add(new Module { Name = "Konsol", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Skapa ett konsolprogram.", StartTime = DateTime.Parse("2019-03-30"), EndTime = DateTime.Parse("2019-04-02") });
-                        modules.Add(new Module { Name = "Generics", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Så fungerar Generics!", StartTime = DateTime.Parse("2019-04-03"), EndTime = DateTime.Parse("2019-04-05") });
-                        modules.Add(new Module { Name = "UX", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Förhöj användarupplevelsen.", StartTime = DateTime.Parse("2019-04-18"), EndTime = DateTime.Parse("2019-04-20") });
+                        modules.Add(new Module { Name = "C#", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "C# 7 (Objektorienterad programmering, Generics, Linq)", StartTime = DateTime.Parse("2018-11-26"), EndTime = DateTime.Parse("2018-12-14") });
+                        modules.Add(new Module { Name = "Testning", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Unittestning mm.", StartTime = DateTime.Parse("2018-12-17"), EndTime = DateTime.Parse("2019-01-02") });
+                        modules.Add(new Module { Name = "Webb", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "HTML5, CSS3, JavaScript.", StartTime = DateTime.Parse("2019-01-03"), EndTime = DateTime.Parse("2019-01-14") });
+                        modules.Add(new Module { Name = "MVC", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "ASP.NET MVC Core.", StartTime = DateTime.Parse("2019-01-15"), EndTime = DateTime.Parse("2019-01-30") });
+                        modules.Add(new Module { Name = "Databaser", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Entity framework & SQL.", StartTime = DateTime.Parse("2019-01-31"), EndTime = DateTime.Parse("2019-02-08") });
+                        modules.Add(new Module { Name = "Webbapplikationer", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Förhöj användarupplevelsen.", StartTime = DateTime.Parse("2019-02-11"), EndTime = DateTime.Parse("2019-02-21") });
+                        modules.Add(new Module { Name = "MVC Fördjupning", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Projektarbete Full-stack applikation.", StartTime = DateTime.Parse("2019-02-22"), EndTime = DateTime.Parse("2019-03-22") });
                         //context.Module.RemoveRange(context.Module);
                         context.Module.AddRange(modules);
                         context.SaveChanges();
@@ -135,13 +158,30 @@ namespace Lexicon_LMS
                     // Seed ActivityModel
                     if (context.ActivityModel.Count() == 0)
                     {
-                        var activityTypeIds = context.ActivityType.Select(a => a.Id).ToArray();
-                        var moduleIds = context.Module.Select(a => a.Id).ToArray();
+                        string[] randomNames = { "Scott Allen", "Susan Johnson", "Bill Gates", "Jeff Bezos", "Steve Balmer" };
+                        string[] randomWords = { "Fördjupning", "Grunderna", "Info om", "Mera om" };
+                        var activityTypes = context.ActivityType.ToArray();
+                        var modules = context.Module.ToArray();
                         var activityModels = new List<ActivityModel>();
-                        activityModels.Add(new ActivityModel { Name = "C# Beginner", ModuleId = moduleIds[indexPicker.Next(0, moduleIds.Length - 1)], ActivityTypeId = activityTypeIds[indexPicker.Next(0, activityTypeIds.Length - 1)], Description = "E-learning med Scott Allen", StartDate = DateTime.Parse("2019-03-28 09:00"), StopDate = DateTime.Parse("2019-03-28 12:00") });
-                        activityModels.Add(new ActivityModel { Name = "JavaScript Beginner", ModuleId = moduleIds[indexPicker.Next(0, moduleIds.Length - 1)], ActivityTypeId = activityTypeIds[indexPicker.Next(0, activityTypeIds.Length - 1)], Description = "Grunder i JavaScript", StartDate = DateTime.Parse("2019-03-28 09:00"), StopDate = DateTime.Parse("2019-03-28 12:00") });
-                        activityModels.Add(new ActivityModel { Name = "CSS Beginner", ModuleId = moduleIds[indexPicker.Next(0, moduleIds.Length - 1)], ActivityTypeId = activityTypeIds[indexPicker.Next(0, activityTypeIds.Length - 1)], Description = "Grunderna i Cascading Style Sheets.", StartDate = DateTime.Parse("2019-03-28 09:00"), StopDate = DateTime.Parse("2019-03-28 12:00") });
-                        //context.ActivityModel.RemoveRange(context.ActivityModel);
+                        foreach (var module in modules)
+                        {
+                            for (int i = 0; i < indexPicker.Next(1, 10); i++)
+                            {
+                                var activityTypeIndex = indexPicker.Next(0, activityTypes.Length - 1);
+                                var dateIndex = (module.EndTime - module.StartTime).Days;
+                                var startDate = module.StartTime.AddDays(indexPicker.Next(0, dateIndex - 3));
+                                var stopDate = startDate.AddDays(indexPicker.Next(0, 3));
+                                activityModels.Add(new ActivityModel
+                                {
+                                    Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)]+" "+module.Name,
+                                    ModuleId = module.Id,
+                                    ActivityTypeId = activityTypes[activityTypeIndex].Id,
+                                    Description = activityTypes[activityTypeIndex].Name + " med " + randomNames[indexPicker.Next(0, randomNames.Length - 1)] + ".",
+                                    StartDate = startDate,
+                                    StopDate = stopDate
+                                });
+                            }
+                        }
                         context.ActivityModel.AddRange(activityModels);
                         context.SaveChanges();
                     }
