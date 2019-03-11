@@ -83,14 +83,9 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             public string OrgEmail { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync(string returnTo = null, string userEmail = "")
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null, string userEmail = "")
         {
-            //if (!(returnUrl == "" || returnUrl == "/"))  // FUNGERAR INTE SOM TÄNKT
-            //    ReturnUrl = returnUrl;
-            //else
-            //    ReturnUrl = "";
-
-            ReturnUrl = returnTo;
+            ReturnUrl = returnUrl;
 
             if (userEmail != "")
             {
@@ -114,15 +109,15 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                 return Page();
             }
-            else if (!(ReturnUrl != "" || ReturnUrl != null))
-                return LocalRedirect("/Identity/Account/Details?userEmail=s@s.com");  // /Identity/Account/Details?userEmail=s@s.com
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            // returnUrl = returnUrl ?? Url.Content("~/");
+            if (returnUrl == null)
+                returnUrl = "";
 
             if (!ModelState.IsValid)
             {
@@ -197,13 +192,13 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                         throw new Exception(string.Join("\n", updateRole.Errors));
                     }
                 }
-                
-                if (returnUrl != "")
-                {
-                    TempData["newUser"] = "Ändrade användare " + Input.Name;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
-                    TempData["newUserData"] = "";  // Input.Name + " (" + Input.Email + ")";
 
-                    if (returnUrl == "details")
+                TempData["newUser"] = "Ändrade " + Input.Name;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+                TempData["newUserData"] = "";  // Input.Name + " (" + Input.Email + ")";
+
+                if (returnUrl == "")
+                {
+                    // if (returnUrl == "details")
                         return LocalRedirect("/Identity/Account/Details?userEmail=" + user.UserName);  // /Identity/Account/Details?userEmail=s@s.com
                 }
             }

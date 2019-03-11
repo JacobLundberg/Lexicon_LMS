@@ -99,8 +99,6 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
             List<Users_in_Role_ViewModel> usersWithRoles = new List<Users_in_Role_ViewModel>();
 
-            // usersWithRoles.Append();
-
             var users = await _userManager.Users.ToListAsync();
             foreach (var user in users)
             {
