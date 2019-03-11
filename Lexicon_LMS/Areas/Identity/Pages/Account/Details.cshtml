@@ -1,0 +1,81 @@
+﻿@page
+@model DetailsModel
+@{
+    ViewData["Title"] = "Användare ";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@{
+    if (@Model.Input != null)
+    {
+
+        if (TempData["newUser"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["newUser"]</strong><br />
+                @{ if (@TempData["newUserData"] != null) {
+                        @TempData["newUserData"]
+                    }
+                }
+            </div>
+        }
+    
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Input.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Input.Name)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Input.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Input.Email)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Input.Role)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Input.Role)
+                </dd>
+            </dl>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                @*btn btn-primary*@
+                <a class="" asp-area="Identity" asp-page="/Account/Edit" asp-route-userEmail="@Model.Input.Email" asp-route-returnTo="details">Redigera</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            Hittade inte användaren
+        </div>
+    }
+}
+
+@*@if (@Model.ReturnUrl != "")
+{
+     var link = "/Account/" + @Model.ReturnUrl;
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <a asp-page="@Model.ReturnUrl">Tillbaks till listan</a>
+        </div>
+    </div>
+}*@
+
+<a class="" asp-page="/Account/Index">Listning av användare</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
