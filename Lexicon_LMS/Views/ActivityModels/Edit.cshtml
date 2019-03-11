@@ -1,14 +1,14 @@
 ﻿@model Lexicon_LMS.Models.ActivityModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Redigera aktivitet";
 }
 
-<h1>Edit</h1>
+<h1>Redigera aktivitet @Model.Name </h1>
 
-<h4>ActivityModel</h4>
 <hr />
 <div class="row">
+
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,15 +38,20 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div>
+                <input type="hidden" asp-for="ModuleId" />
+            </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Spara</button>
             </div>
         </form>
     </div>
 </div>
 
+<hr />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-sm btn-info" asp-controller="Modules" asp-action="Details" asp-route-id=" @TempData.Peek("LastModuleId")"><i class="fas fa-undo-alt"></i> Tillbaka till moduldetaljerdetaljer @TempData.Peek("LastCourseName")</a>
 </div>
 
 @section Scripts {

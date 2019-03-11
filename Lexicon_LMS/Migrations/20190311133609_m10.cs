@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lexicon_LMS.Migrations
 {
-    public partial class m8 : Migration
+    public partial class m10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -193,7 +193,7 @@ namespace Lexicon_LMS.Migrations
                     Description = table.Column<string>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
-                    CourseId = table.Column<int>(nullable: true)
+                    CourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,7 +203,7 @@ namespace Lexicon_LMS.Migrations
                         column: x => x.CourseId,
                         principalTable: "Course",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,7 +237,7 @@ namespace Lexicon_LMS.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActivityTypeId = table.Column<int>(nullable: true),
-                    ModuleId = table.Column<int>(nullable: true),
+                    ModuleId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     StopDate = table.Column<DateTime>(nullable: false),
@@ -257,7 +257,7 @@ namespace Lexicon_LMS.Migrations
                         column: x => x.ModuleId,
                         principalTable: "Module",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -308,6 +308,12 @@ namespace Lexicon_LMS.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Course_Id",
+                table: "Course",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Module_CourseId",

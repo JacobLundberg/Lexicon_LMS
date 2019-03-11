@@ -93,7 +93,7 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartTime,EndTime")] Module @module)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartTime,EndTime, CourseId")] Module @module)
         {
             if (id != @module.Id)
             {
@@ -118,7 +118,9 @@ namespace Lexicon_LMS
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                var url = "~/Courses/Details/" + @module.CourseId;
+                return LocalRedirect(url);
+//                return RedirectToAction(nameof(Index));
             }
             return View(@module);
         }
@@ -149,7 +151,9 @@ namespace Lexicon_LMS
             var @module = await _context.Module.FindAsync(id);
             _context.Module.Remove(@module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+//            return RedirectToAction(nameof(Index));
+            var url = "~/Courses/Details/" + TempData.Peek("LastCourseId");
+            return LocalRedirect(url);
         }
 
         private bool ModuleExists(int id)
