@@ -33,7 +33,7 @@ namespace Lexicon_LMS.Models
         public DateTime StopDate { get; set; }
 
         [Required]
-        [Display(Name = "Beskrivning")]
+        [Display(Name = "Aktivitetsbeskrivning")]
         public string Description { get; set; }
     }
 }
