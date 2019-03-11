@@ -1,12 +1,11 @@
-﻿@model Lexicon_LMS.Models.Module
+﻿@using Microsoft.AspNetCore.Http
+@model Lexicon_LMS.Models.Module
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Skapa Modul i kurs: "+@TempData.Peek("LastCourseName");
 }
 
-<h1>Create</h1>
-
-<h4>Module</h4>
+<h1>Skapa modul i kurs: @TempData.Peek("LastCourseName")</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,15 +31,18 @@
                 <input asp-for="EndTime" class="form-control" />
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
+            <div>
+                <input hidden asp-for="@Model.CourseId" class="form-control" />
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Skapa modul" class="btn btn-primary btn-sm" />
             </div>
         </form>
     </div>
 </div>
-
+<hr />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-sm btn-primary" asp-controller="Courses" asp-action="Details" asp-route-id="@TempData.Peek("LastCourseId")"><i class="fas fa-undo-alt"></i> Tillbaka till kursdetaljer för @TempData.Peek("LastCourseName")</a>
 </div>
 
 @section Scripts {

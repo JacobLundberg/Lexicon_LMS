@@ -7,6 +7,7 @@
 <h1>Radera kurs</h1>
 
 <h4>Är du säker på att du vill radera kursen?</h4>
+<br />
 <div>
 
     <dl class="row">
@@ -32,8 +33,9 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Radera kurs" class="btn btn-danger" /> 
+        <input type="submit" value="Radera kurs" class="btn btn-danger btn-sm" /> 
         <br />
+        <hr />
         <a class="btn btn-sm btn-primary" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till Kurslistan</a>
     </form>
 </div>

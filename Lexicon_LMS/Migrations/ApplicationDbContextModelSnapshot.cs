@@ -25,7 +25,7 @@ namespace Lexicon_LMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ActivityTypeId");
+                    b.Property<int?>("ActivityTypeId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -74,8 +74,6 @@ namespace Lexicon_LMS.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int?>("CourseId");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -107,8 +105,6 @@ namespace Lexicon_LMS.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -296,19 +292,11 @@ namespace Lexicon_LMS.Migrations
                 {
                     b.HasOne("Lexicon_LMS.Models.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("ActivityTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActivityTypeId");
 
                     b.HasOne("Lexicon_LMS.Models.Module")
                         .WithMany("ModuleActivities")
                         .HasForeignKey("ModuleId");
-                });
-
-            modelBuilder.Entity("Lexicon_LMS.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Lexicon_LMS.Models.Course")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("CourseId");
                 });
 
             modelBuilder.Entity("Lexicon_LMS.Models.ApplicationUserCourse", b =>
@@ -319,7 +307,7 @@ namespace Lexicon_LMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Lexicon_LMS.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("ApplicationUsers")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

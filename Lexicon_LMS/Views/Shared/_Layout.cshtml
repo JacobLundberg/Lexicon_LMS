@@ -21,9 +21,12 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            @*        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">*@
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lexicon LMS</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/lexicon_lms.png" height="38" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,23 +35,24 @@
                     <partial name="_LoginPartial" />
                     @{ if (User.IsInRole("Teacher"))
                         {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Moduler</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ActivityModels" asp-action="Index">Aktivitet</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ActivityTypes" asp-action="Index">Aktivitet Typ</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Index" asp-route-returnUrl="@Url.Action("Index", "Courses", new { area = "" })">Användare</a>
-                            </li>
-                        </ul>
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
+                                </li>
+                                @*<li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Moduler</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityModels" asp-action="Index">Aktivitet</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityTypes" asp-action="Index">Aktivitet Typ</a>
+                                    </li>*@
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Create" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Lägg till Användare</a>
+                                </li>
+
+                            </ul>
                         }
                     }
                 </div>
@@ -62,9 +66,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted text-center">
         <div class="container">
-            &copy; 2019 - Lexicon_LMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - Lexicon LMS - Freddie Goran Jake Sabre
+            @*- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
         </div>
     </footer>
 

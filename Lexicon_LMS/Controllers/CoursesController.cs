@@ -3,6 +3,7 @@ using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,20 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Course.ToListAsync());
+            return View(await _context
+                .Course
+                .Include(m => m.Modules)
+                .ThenInclude(ma => ma.ModuleActivities)
+                .ThenInclude(at => at.ActivityType)
+                .Include(auc => auc.ApplicationUsers)
+                .ThenInclude(au => au.ApplicationUser)
+                .ToListAsync());
+
+            //return View(await _context
+            //    .Course
+            //    .Include("Modules")
+            //    .ThenInclude("ActivityModels")
+            //    .ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -33,7 +47,11 @@ namespace Lexicon_LMS.Controllers
             }
 
             var course = await _context.Course
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(m => m.Modules)
+                .ThenInclude(ma => ma.ModuleActivities)
+                .Include(au => au.ApplicationUsers)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (course == null)
             {
                 return NotFound();
@@ -45,7 +63,8 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            return View();
+            var course = new Course { StartDate = DateTime.UtcNow.Date };
+            return View(course);
         }
 
         // POST: Courses/Create

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lexicon_LMS.Data;
+using Lexicon_LMS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Lexicon_LMS.Data;
-using Lexicon_LMS.Models;
 
 namespace Lexicon_LMS
 {
@@ -34,19 +32,26 @@ namespace Lexicon_LMS
             }
 
             var @module = await _context.Module
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(ma => ma.ModuleActivities)
+                .ThenInclude(ac => ac.ActivityType)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (@module == null)
             {
                 return NotFound();
             }
-
             return View(@module);
         }
 
         // GET: Modules/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(int? courseId)
         {
-            return View();
+            var @module = new Module { CourseId = courseId,
+          StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
+          EndTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString())
+            };
+                return View(@module);
         }
 
         // POST: Modules/Create
@@ -54,13 +59,15 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime")] Module @module)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime,CourseId")] Module @module)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var url = "~/Courses/Details/" + @module.CourseId;
+                return LocalRedirect(url);
+                //   return RedirectToAction(nameof(Index));
             }
             return View(@module);
         }
