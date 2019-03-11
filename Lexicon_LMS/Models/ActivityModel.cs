@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lexicon_LMS.Models
 {
@@ -11,13 +12,15 @@ namespace Lexicon_LMS.Models
 
         // foreign key
         [Display(Name = "Aktivitetstyp")]
-        public int? ActivityTypeId { get; set; }
+		[ForeignKey("ActivityTypeId")]
+		public int? ActivityTypeId { get; set; }
         // navigation reference
         [Display(Name = "Aktivitetstyp")]
         public ActivityType ActivityType { get; set; }
 
-        // Navigational reference 
-        public int? ModuleId { get; set; }
+		// Navigational reference 
+		[ForeignKey("ModuleId")]
+		public int ModuleId { get; set; }
 
         [Required]
         [Display(Name = "Namn")]

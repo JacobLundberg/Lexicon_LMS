@@ -18,8 +18,9 @@ namespace Lexicon_LMS.Data
 
 			modelBuilder.Entity<ApplicationUserCourse>()
 				.HasKey(t => new { t.ApplicationUserId, t.CourseId });
-
-
+			modelBuilder.Entity<Course>()
+				.HasIndex(b => b.Id)
+				.IsUnique();
 		}
 
 		public DbSet<Course> Course { get; set; }
