@@ -60,13 +60,6 @@ namespace Lexicon_LMS
                     newUser.Role = "Teacher";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
-                    newUser = new newUser();
-                    newUser.Name = "Adrian";
-                    newUser.Email = "t2@t.com";
-                    newUser.Password = "Teacher-1";
-                    newUser.Role = "Teacher";
-                    await CreateUserAsync(userManager, roleManager, newUser);
-
                     // Student
                     newUser = new newUser();
                     newUser.Name = "Fredrik";
@@ -117,11 +110,8 @@ namespace Lexicon_LMS
                     if (context.Course.Count() == 0)
                     {
                         var courses = new List<Course>();
-                        courses.Add(new Course { Name = "C#", Description = "Programmeringskurs i Microsoft C#.", StartDate = DateTime.Parse("2019-03-28") });
-                        courses.Add(new Course { Name = "C# Avancerad", Description = "Fortsättningskurs i Microsoft C#.", StartDate = DateTime.Parse("2019-04-18") });
+                        courses.Add(new Course { Name = ".NET Påbyggnadsutbildning", Description = "Programmeringskurs i Microsoft Core MVC.", StartDate = DateTime.Parse("2018-11-26") });
                         courses.Add(new Course { Name = "Java", Description = "Programmeringskurs i Java.", StartDate = DateTime.Parse("2019-05-05") });
-                        courses.Add(new Course { Name = "Python", Description = "Programmeringskurs i Python.", StartDate = DateTime.Parse("2019-05-13") });
-                        courses.Add(new Course { Name = "Visual Basic", Description = "Programmeringskurs i Visual Basic.", StartDate = DateTime.Parse("2019-05-22") });
                         //context.Course.RemoveRange(context.Course);
                         context.Course.AddRange(courses);
                         context.SaveChanges();
@@ -130,7 +120,7 @@ namespace Lexicon_LMS
                     // Seed ApplicationUserCourse
                     if (context.UserCourse.Count() == 0)
                     {
-                        var courseIds = context.Course.Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
                         var userIds = context.Users.Select(a => a.Id).ToArray();
 
                         var userCourses = new List<ApplicationUserCourse>();
@@ -144,10 +134,10 @@ namespace Lexicon_LMS
                         context.SaveChanges();
                     }
 
-                    // Seed Module
+                    // Seed Module .NET Påbyggnadsutbildning
                     if (context.Module.Count() == 0)
                     {
-                        var courseIds = context.Course.Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
                         var modules = new List<Module>();
                         modules.Add(new Module { Name = "Grunderna", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Grunderna i Microsoft...", StartTime = DateTime.Parse("2019-03-28"), EndTime = DateTime.Parse("2019-03-29") });
                         modules.Add(new Module { Name = "Konsol", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Skapa ett konsolprogram.", StartTime = DateTime.Parse("2019-03-30"), EndTime = DateTime.Parse("2019-04-02") });
