@@ -3,11 +3,27 @@
 @{
     ViewData["Title"] = "Användare ";
 }
-
+<br />
 <h1>@ViewData["Title"]</h1>
 
-<a class="" asp-area="Identity" asp-page="/Account/Create" asp-route-returnUrl="/">Lägg till Användare</a>
-
+@{
+if (TempData["newUser"] != null)
+    {
+    <div class="alert alert-success">
+        <strong>@TempData["newUser"]</strong><br />
+        @{ if (@TempData["newUserData"] != null)
+            {
+                @TempData["newUserData"]
+            }
+        }
+    </div>
+    }
+}
+    <p>
+        <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Create">
+            <i class="fas fa-plus"></i> Lägg till Användare
+        </a>
+    </p>
 @{
     if (@Model.Users != null)
     {
@@ -25,13 +41,13 @@
                 {
                     <tr class="tablecell">
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email" asp-route-returnTo="Index">@item.Name</a>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Name</a>
                         </td>
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email" asp-route-returnTo="Index">@item.Username</a>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Username</a>
                         </td>
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email" asp-route-returnTo="Index">@item.Email</a>
+                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Email</a>
                         </td>
                         <td>
                             @item.Role
@@ -49,7 +65,7 @@
             </div>
         </div>
     }
-    else 
+    else
     {
         <div>
             Hittade ingen användare
@@ -57,7 +73,7 @@
     }
 }
 
-    @*
+@*
     @if (@Model.ReturnUrl != "")
         {
         <br>
@@ -67,7 +83,7 @@
         </div>
     </div>
     }
-    *@
+*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

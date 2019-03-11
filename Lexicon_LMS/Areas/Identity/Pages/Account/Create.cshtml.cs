@@ -18,7 +18,6 @@ using System.Linq;
 
 namespace Lexicon_LMS.Areas.Identity.Pages
 {
-    
     [Authorize(Roles = "Teacher")]
     public class RegisterModel : PageModel
     {
@@ -28,12 +27,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+        public RegisterModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -96,12 +90,13 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            // returnUrl = returnUrl ?? Url.Content("~/");
+            // returnUrl = returnUrl ?? Url.Content("/Areas/Identity/Pages/Account/Details");
+            // returnUrl = returnUrl ?  ? Url.Content("/Index");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
 
                 if (result.Succeeded)
                 {
@@ -114,35 +109,45 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                         throw new Exception(string.Join("\n", svar.Errors));
                     }
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+                    #region SendEmail
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { userId = user.Id, code = code },
+                    //    protocol: Request.Scheme);
 
                     //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                     //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
+                    #endregion
 
                     string roll = "";
                     if (Input.Role == "Teacher")
                         roll = "lärare";
                     else
                         roll = "elev";
-                    TempData["newUser"] = "Skapade ny " + roll;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
-                    TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
 
-                    // return LocalRedirect(returnUrl);
-                    return RedirectToAction("Index", "Courses");
+                    TempData["newUser"] = "Skapade ny " + roll;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
+
+                    if (returnUrl == "" || returnUrl == null)
+                        returnUrl = "/Identity/Account/Details?userEmail=" + Input.Email;
+                    else
+                    {
+                        TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
+                        returnUrl = "/Identity/Account";
+                    }
+
+                    return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
+            //else
+            //    returnUrl = returnUrl ?? Url.Content("/Areas/Identity/Pages/Account");  // /Areas/Identity/Pages/Account/Details
             // If we got this far, something failed, redisplay form
             Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
             return Page();
