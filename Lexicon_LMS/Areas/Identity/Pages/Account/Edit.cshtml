@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Redigera användare";
 }
-
+<br />
 <h1>@ViewData["Title"]</h1>
 
 @{
@@ -48,18 +48,6 @@
                         </div>*@
 
                     <button type="submit" class="btn btn-primary">Spara</button>
-
-                    @*@if (@Model.ReturnUrl != "")
-                    {
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a asp-route-returnurl="@Model.ReturnUrl">Tillbaka</a>
-
-                            </div>
-                        </div>
-                    }*@
-
                 </form>
             </div>
         </div>
@@ -83,8 +71,10 @@
     }
 }
 @*ReturnUrl:  @Model.ReturnUrl*@
-<br />
-<a class="" asp-page="/Account/Index">Listning av användare</a>
+<hr />
+<div>
+    <a class="btn btn-sm btn-primary" asp-page="/Account/Index"><i class="fas fa-undo-alt"></i> Tillbaka till användarna</a>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
