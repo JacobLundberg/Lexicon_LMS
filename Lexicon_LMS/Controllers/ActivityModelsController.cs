@@ -98,7 +98,7 @@ namespace Lexicon_LMS
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ActivityTypeId,Name,StartDate,StopDate,Description")] ActivityModel activityModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ActivityTypeId,Name,StartDate,StopDate,Description,ModuleId")] ActivityModel activityModel)
         {
             if (id != activityModel.Id)
             {
@@ -123,7 +123,10 @@ namespace Lexicon_LMS
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //                return RedirectToAction(nameof(Index));
+                var url = "~/Modules/Details/" + TempData.Peek("LastModuleId");
+                return LocalRedirect(url);
+
             }
             ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name", activityModel.ActivityTypeId);
             return View(activityModel);
