@@ -152,6 +152,33 @@ namespace Lexicon_LMS.Migrations
                     b.ToTable("Course");
                 });
 
+            modelBuilder.Entity("Lexicon_LMS.Models.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ActivityId");
+
+                    b.Property<int>("ApplicationUserId");
+
+                    b.Property<int?>("CourseId");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<int?>("ModuleId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Document");
+                });
+
             modelBuilder.Entity("Lexicon_LMS.Models.Module", b =>
                 {
                     b.Property<int>("Id")

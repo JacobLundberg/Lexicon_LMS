@@ -2,6 +2,7 @@
 using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -68,7 +69,8 @@ namespace Lexicon_LMS
             {
                 _context.Add(activityModel);
                 await _context.SaveChangesAsync();
-                var url = "~/Modules/Details/" + activityModel.ModuleId;
+		
+				var url = "~/Modules/Details/" + activityModel.ModuleId;
                 return LocalRedirect(url);
 //                return RedirectToAction(nameof(Index));
             }
