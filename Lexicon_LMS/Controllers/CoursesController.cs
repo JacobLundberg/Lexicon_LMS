@@ -1,6 +1,7 @@
 ﻿using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +14,30 @@ namespace Lexicon_LMS.Controllers
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CoursesController(ApplicationDbContext context)
+        public CoursesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+
+        // GET: Courses
+        public async Task<IActionResult> CourseStudents()
+        {
+            //var userId = _userManager.GetUserId(HttpContext.User).ToString();
+            //var courseId = _context.UserCourse.FirstOrDefault(u => u.ApplicationUserId == userId).CourseId;
+            //var theView = _context.Course.FirstOrDefaultAsync(c => c.Id == courseId);
+            //return View(await theView);
+
+            return View(await _context
+                .Course
+                .FirstOrDefaultAsync(c => c.Id == _context
+                    .UserCourse
+                    .FirstOrDefault(u => u.ApplicationUserId == _userManager
+                        .GetUserId(HttpContext.User)
+                        .ToString())
+                    .CourseId));
         }
 
         // GET: Courses

@@ -40,19 +40,28 @@
                                     <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
                                 </li>
                                 @*<li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Moduler</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityModels" asp-action="Index">Aktivitet</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityTypes" asp-action="Index">Aktivitet Typ</a>
-                                    </li>*@
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Moduler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityModels" asp-action="Index">Aktivitet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ActivityTypes" asp-action="Index">Aktivitet Typ</a>
+                    </li>*@
                                 <li class="nav-item">
                                     @*<a class="nav-link" asp-area="Identity" asp-page="/Account/Create" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Lägg till Användare</a>*@
                                     <a class="nav-link" asp-area="Identity" asp-page="/Account/Index">Användare</a>
                                 </li>
 
+                            </ul>
+                        }
+                    }
+                    @{ if (User.IsInRole("Student"))
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="CourseStudents">Klasskompisar</a>
+                                </li>
                             </ul>
                         }
                     }
