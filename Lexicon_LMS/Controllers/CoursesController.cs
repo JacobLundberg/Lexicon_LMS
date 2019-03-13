@@ -29,15 +29,17 @@ namespace Lexicon_LMS.Controllers
             //var courseId = _context.UserCourse.FirstOrDefault(u => u.ApplicationUserId == userId).CourseId;
             //var theView = _context.Course.FirstOrDefaultAsync(c => c.Id == courseId);
             //return View(await theView);
-
             return View(await _context
                 .Course
+                .Include(aus => aus.ApplicationUsers)
+                    .ThenInclude(au => au.ApplicationUser)
                 .FirstOrDefaultAsync(c => c.Id == _context
                     .UserCourse
                     .FirstOrDefault(u => u.ApplicationUserId == _userManager
                         .GetUserId(HttpContext.User)
                         .ToString())
-                    .CourseId));
+                    .CourseId)
+                    );
         }
 
         // GET: Courses

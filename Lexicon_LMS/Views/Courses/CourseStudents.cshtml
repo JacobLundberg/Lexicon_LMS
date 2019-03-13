@@ -2,63 +2,54 @@
 @model Lexicon_LMS.Models.Course
 
 @{
-    ViewData["Title"] = "Klasskompisar ";
+    ViewData["Title"] = "Klasskompisar";
 
 }
-
-<h1>Klasskompisar på @Html.DisplayFor(model => model.Description)</h1>
-<div>@*
-    <hr />
-
+<div class="text-center">
+    <h1>Klasskompisar på</h1>
+    <h2>@Html.DisplayFor(model => model.Description)</h2>
+</div>
+<hr />
+<div>
     @if (Model.ApplicationUsers.Count > 0)
     {
+        <div class="container-fluid text-center">
+            <section class="row ">
                 @foreach (var item in Model.ApplicationUsers)
-                { if User.Identity.<div></div>
+                {
+                    if ("Teacher" == "Teacher") // TODO: Change to real test..
+                    {
+                <div data-wow-delay=".25s" class="col-md-2 wow fadeInDown text-center">
+                    @*                    <img src="http://lorempixel.com/120/200/people" />*@
+                    <img src="https://loremflickr.com/120/160/man/?random=@DateTime.Now.Ticks" />
+                    <img src="https://loremflickr.com/120/160/man?random=@DateTime.Now.Ticks" />
+                    <h4>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h5>
+                </div>
+                    }
+                    else // Students
+                    {
+                        <div data-wow-delay="0.5s" class="col-md-2 wow fadeInDown text-center">
+                            <img src="https://loremflickr.com/320/240?random=1" />
+                            <h2>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h2>
+                            <h6>@Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h6>
+                        </div>
+                    }
 
-                    string activityTitle = "";
-                    foreach (var m in item.ModuleActivities)
-                    {
-                        activityTitle = activityTitle + "\n" + m.Name;
-                    }
-                    @if (activityTitle == "")
-                    {
-                        activityTitle = "Inga aktiviteter i " + item.Name + "!";
-                    }
-                    else
-                    {
-                        activityTitle = "Aktiviteter i " + item.Name + ": " + activityTitle;
-                    }
-
-                    <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
-                        <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
-                            @Html.DisplayFor(modelItem => item.StartTime)
-                        </td>
-                        <td title="Klicka för att visa detaljer & lägga till aktiviteter i modul @item.Name.">
-                            @Html.DisplayFor(modelItem => item.EndTime)
-                        </td>
-                        <td title="@activityTitle" align="center">
-                            @Html.DisplayFor(modelItem => item.ModuleActivities.Count)
-                        </td>
-                    </tr>
                 }
-
-            </tbody>
-        </table>
+            </section>
+        </div>
     }
-    else
-    {
+
+</div>
+
+@*            <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
+                        @Html.DisplayFor(modelItem => item.ModuleActivities.Count)
+            }
+        }
+
         <hr />
-        <h5><i>Kursen @Model.Name har f n inga moduler!</i></h5>
-    }
 
-    <hr />
-
-    <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>
-</div>*@
+        <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>
+    </div>*@
 
