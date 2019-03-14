@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
 @model Lexicon_LMS.Models.Course
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Klasskompisar";
@@ -10,46 +13,29 @@
     <h2>@Html.DisplayFor(model => model.Description)</h2>
 </div>
 <hr />
-<div>
+<div class="row badge-light">
+
     @if (Model.ApplicationUsers.Count > 0)
     {
-        <div class="container-fluid text-center">
-            <section class="row ">
-                @foreach (var item in Model.ApplicationUsers)
-                {
-                    if ("Teacher" == "Teacher") // TODO: Change to real test..
-                    {
-                <div data-wow-delay=".25s" class="col-md-2 wow fadeInDown text-center">
-                    @*                    <img src="http://lorempixel.com/120/200/people" />*@
-                    <img src="https://loremflickr.com/120/160/man/?random=@DateTime.Now.Ticks" />
-                    <img src="https://loremflickr.com/120/160/man?random=@DateTime.Now.Ticks" />
-                    <h4>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h4>
-                    <h5>@Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h5>
-                </div>
-                    }
-                    else // Students
-                    {
-                        <div data-wow-delay="0.5s" class="col-md-2 wow fadeInDown text-center">
-                            <img src="https://loremflickr.com/320/240?random=1" />
-                            <h2>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h2>
-                            <h6>@Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h6>
-                        </div>
-                    }
 
-                }
-            </section>
-        </div>
+        @foreach (var item in Model.ApplicationUsers)
+        {
+            var roll = "";
+            foreach (var r in await UserManager.GetRolesAsync(item.ApplicationUser))
+            {
+                roll = r.ToString();
+            }
+            <div class="col-xs-6 col-md-3 text-center p-3">
+                <img data-wow-delay="1.5s" class="img-rounded wow fadeInUp " src="https://loremflickr.com/120/160/man/?random=@DateTime.Now.Ticks" />
+                <h6>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h6>
+                <p>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                    <br />
+                    (@roll.Replace("Student","Elev").Replace("Teacher", "Lärare"))
+                </p>
+            </div>
+        }
     }
 
+
 </div>
-
-@*            <tr onclick="window.location.href='../../Modules/Details/@item.Id'">
-                        @Html.DisplayFor(modelItem => item.ModuleActivities.Count)
-            }
-        }
-
-        <hr />
-
-        <a class="btn btn-sm btn-info" asp-action="Index"><i class="fas fa-undo-alt"></i> Tillbaka till kurslistan</a>
-    </div>*@
-

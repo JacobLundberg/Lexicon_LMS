@@ -25,10 +25,6 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses
         public async Task<IActionResult> CourseStudents()
         {
-            //var userId = _userManager.GetUserId(HttpContext.User).ToString();
-            //var courseId = _context.UserCourse.FirstOrDefault(u => u.ApplicationUserId == userId).CourseId;
-            //var theView = _context.Course.FirstOrDefaultAsync(c => c.Id == courseId);
-            //return View(await theView);
             return View(await _context
                 .Course
                 .Include(aus => aus.ApplicationUsers)
@@ -53,12 +49,6 @@ namespace Lexicon_LMS.Controllers
                 .Include(auc => auc.ApplicationUsers)
                 .ThenInclude(au => au.ApplicationUser)
                 .ToListAsync());
-
-            //return View(await _context
-            //    .Course
-            //    .Include("Modules")
-            //    .ThenInclude("ActivityModels")
-            //    .ToListAsync());
         }
 
         // GET: Courses/Details/5
