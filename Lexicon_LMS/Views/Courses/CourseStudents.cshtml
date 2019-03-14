@@ -13,11 +13,10 @@
     <h2>@Html.DisplayFor(model => model.Description)</h2>
 </div>
 <hr />
-<div class="row badge-light">
+<div class="row">
 
     @if (Model.ApplicationUsers.Count > 0)
     {
-
         @foreach (var item in Model.ApplicationUsers)
         {
             var roll = "";
@@ -25,17 +24,15 @@
             {
                 roll = r.ToString();
             }
-            <div class="col-xs-6 col-md-3 text-center p-3">
-                <img data-wow-delay="1.5s" class="img-rounded wow fadeInUp " src="https://loremflickr.com/120/160/man/?random=@DateTime.Now.Ticks" />
+            <div class="col-xs-6 col-md-3 text-center p-3 m-2 badge-light">
+                <img data-wow-delay="1.5s" class="img-rounded wow fadeInUp w-100" src="~/img/profilePhotoPlaceholder.jpg" />
                 <h6>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</h6>
                 <p>
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
                     <br />
-                    (@roll.Replace("Student","Elev").Replace("Teacher", "Lärare"))
+                    (@roll.Replace("Student", "Elev").Replace("Teacher", "Lärare"))
                 </p>
             </div>
         }
     }
-
-
 </div>
