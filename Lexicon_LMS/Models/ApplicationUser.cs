@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lexicon_LMS.Models
 {
@@ -10,5 +12,9 @@ namespace Lexicon_LMS.Models
 
         public ICollection<ApplicationUserCourse> Courses { get; set; }
 
+        internal Task GeneratePasswordResetTokenAsync(ApplicationUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
