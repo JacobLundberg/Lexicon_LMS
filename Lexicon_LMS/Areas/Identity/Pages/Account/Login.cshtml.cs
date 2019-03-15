@@ -1,4 +1,5 @@
-﻿using Lexicon_LMS.Models;
+﻿using Lexicon_LMS.Data;
+using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +20,14 @@ namespace Lexicon_LMS.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -73,9 +76,9 @@ namespace Lexicon_LMS.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            
 
-                
+
+
 
             if (ModelState.IsValid)
             {
@@ -90,6 +93,11 @@ namespace Lexicon_LMS.Areas.Identity.Pages.Account
 
                     if (await _userManager.IsInRoleAsync(user, "Teacher"))
                         return RedirectToAction("Index", "Courses");
+                    else if (await _userManager.IsInRoleAsync(user, "Student"))
+                    {
+                        TempData["LastLoggedInStudentCourseId"] = _context.UserCourse.FirstOrDefault(s => s.ApplicationUserId == user.Id).CourseId;
+                        return RedirectToAction("Details", "Courses", new { Id = TempData.Peek("LastLoggedInStudentCourseId") });  // Elevs landningssida
+                    }
                     else
                         return LocalRedirect(returnUrl);
                 }
