@@ -95,8 +95,9 @@ namespace Lexicon_LMS.Areas.Identity.Pages.Account
                         return RedirectToAction("Index", "Courses");
                     else if (await _userManager.IsInRoleAsync(user, "Student"))
                     {
-                        TempData["LastLoggedInStudentCourseId"] = _context.UserCourse.FirstOrDefault(s => s.ApplicationUserId == user.Id).CourseId;
-                        return RedirectToAction("Details", "Courses", new { Id = TempData.Peek("LastLoggedInStudentCourseId") });  // Elevs landningssida
+                        // TempData["LastLoggedInStudentCourseId"] = _context.UserCourse.FirstOrDefault(s => s.ApplicationUserId == user.Id).CourseId;
+                        // return RedirectToAction("Details", "Courses", new { Id = TempData.Peek("LastLoggedInStudentCourseId") });  // Elevs landningssida
+                        return RedirectToAction("Index", "Student");
                     }
                     else
                         return LocalRedirect(returnUrl);
