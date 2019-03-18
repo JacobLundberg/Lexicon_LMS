@@ -33,5 +33,7 @@ namespace Lexicon_LMS.Data
 
         public DbSet<ActivityType> ActivityType { get; set; }
 
+        public DbSet<Lexicon_LMS.Models.Document> Document { get; set; }
+
     }
 }
