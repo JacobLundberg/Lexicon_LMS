@@ -45,14 +45,12 @@ namespace Lexicon_LMS.Controllers
                     .ThenInclude(ma => ma.ActivityType)
                     .Include(au => au.ApplicationUsers)
                     .FirstOrDefaultAsync(m => m.Id == courseId);
+                ViewData["Rubrik"] = course.Name;
             }
-
-            if (course == null)
+            else
             {
-                return NotFound();
+                ViewData["Rubrik"] = "Du verkar inte gå på någon kurs - kontakta din lärare eller skolan";
             }
-
-            ViewData["Rubrik"] = course.Name;  //  "Hej";
 
             return View(course);
         }

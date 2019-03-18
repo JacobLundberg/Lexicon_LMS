@@ -25,7 +25,11 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses
         public async Task<IActionResult> CourseStudents()
         {
-            return View(await _context
+            ApplicationUser currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            ApplicationUserCourse actCourse = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == currentUser.Id);
+            Course classMates;
+
+            classMates = await _context
                 .Course
                 .Include(aus => aus.ApplicationUsers)
                     .ThenInclude(au => au.ApplicationUser)
@@ -34,8 +38,14 @@ namespace Lexicon_LMS.Controllers
                     .FirstOrDefault(u => u.ApplicationUserId == _userManager
                         .GetUserId(HttpContext.User)
                         .ToString())
-                    .CourseId)
-                    );
+                    .CourseId);
+
+            if (classMates != null)
+                ViewData["Rubrik"] = "Klasskompisar på";
+            else
+                ViewData["Rubrik"] = "Du verkar inte gå på någon kurs - kontakta din lärare eller skolan";
+
+            return View(classMates);
         }
 
         // GET: Courses

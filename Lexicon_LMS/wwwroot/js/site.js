@@ -3,16 +3,30 @@
 
 // Write your JavaScript code.
 
-function toggleDocs(id) {
-    // obj.style.color = "purple";
-
+function ToggleDocs(id) {
     var docBox = document.getElementById("Docs-" + id);
-    if (docBox.style.display == "none")
+    var docIco = document.getElementById("Ico-" + id);
+
+    if (docBox.style.display == "none") {
         docBox.style.display = "block";
-    else
+        //docBox.classList.remove("stuModuleDocHidden");
+        //docBox.classList.add("stuModuleDocShow");
+        
+        docIco.classList.remove("fa-plus");
+        docIco.classList.add("fa-minus");
+
+        
+    }
+    else {
         docBox.style.display = "none";
 
-    // Docs-@item.Id
+        //docBox.classList.remove("stuModuleDocShow");
+        //docBox.classList.add("stuModuleDocHidden");
+
+        docIco.classList.remove("fa-minus");
+        docIco.classList.add("fa-plus");
+    }
+    // alert("css: " + docBox.classList);
 
     return false;
 }

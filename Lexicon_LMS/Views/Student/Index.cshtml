@@ -5,95 +5,120 @@
     CultureInfo culture = CultureInfo.CreateSpecificCulture("sv-SE");  // en-US
     CultureInfo ci = CultureInfo.InvariantCulture;
 }
-<br />
-<h1>@ViewData["Rubrik"]</h1>
 
-<div>
-    <dl class="row">
-        <dd class="col-sm-2 font-weight-bold">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dd class="col-sm-10 font-italic font-weight-light">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-
-<h4 class="row text-white" style="margin-bottom:0; padding:0.1em 0 0.3em 0.65em; background-color:#555555; border-top-left-radius:7px; border-top-right-radius:7px;">Moduler</h4>
-
-<div>
-    @foreach (var item in Model.Modules)
+@{ if (Model != null)
     {
-    <div class="row" style="margin-top:-1px; margin-bottom:0; background:#e5e5e5; border:1px solid #999999;  padding-top: 6px; padding-bottom:7px;">
-        @{
-            // var moduleStart = String.Format("{0:d/M/yyyy HH:mm:ss}", item.StartTime);
-            var moduleStart = item.StartTime.ToString("dd/MM", ci);
-            // var moduleEnd = item.EndTime.ToString("yyddMM hh:mm", ci);
-            var moduleEnd = item.EndTime.ToString("dd/MM", ci);
-        }
-        <div class="col-md-9 col-sm-8">
-            <a data-toggle="collapse" href="#activities-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample" 
-               style="color:#555555; font-weight:bold; text-decoration:none;" onclick="toggleDocs(@item.Id);">
-                <i class="fa fa-plus" style="margin-right: 10px;"></i> @Html.DisplayFor(modelItem => item.Name)
-            </a>
+        <br />
+        <h1>@ViewData["Rubrik"]</h1>
+
+        <div>
+            <dl class="row">
+                <dd class="col-sm-2 font-weight-bold">
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
+                <dd class="col-sm-10 font-italic font-weight-light">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
         </div>
 
-        <div class="col-md-3 col-sm-4 col- text-right" style="padding-right:16px;">
-            <a data-toggle="collapse" href="#activities-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample" style="color:#555555; font-weight:bold; text-decoration:none;">
-                @moduleStart - @moduleEnd
-            </a>
-        </div>
-
-        <div id="Docs-@item.Id" class="col-sm-12" style="margin-top:5px; display:none;">
-            <div style="font-style:italic"> @Html.DisplayFor(modelItem => item.Description)</div>
-            <div class="col-sm-12" style="margin-top:10px; margin-left:-15px; padding:0; font-size:0.85em;">
-                <div class="col-sm-12"><b>Dokument</b></div>
+        <div class="col-sm-12" style="margin-top:0; margin-bottom:20px; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
+            <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; font-size:0.85em;">
+                <div class="col-sm-12"><b>Kursdokument</b></div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 2</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 4</div>
             </div>
         </div>
-    </div>
 
-    <div id="activities-@item.Id" class="collapse" style=" ">
-        @foreach (var activity in item.ModuleActivities.Where(a => a.ModuleId == item.Id))
-        {
-            var timeStart = activity.StartDate.ToString("yyMMdd hh:mm"); /*yyyy - MM - dd hh: mm*/
-            var timeEnd = activity.StopDate.ToString("yyMMdd hh:mm");
+        <h4 class="row text-white stuModules">Moduler</h4>
 
-        <div class="row" style="margin:5px 0 5px 0; background:#f8f8f8; border:1px solid #b3b3b3; border-radius:7px; overflow:hidden;">
-            <div class="col-sm-4 font-weight-bold">
-                @timeStart - @timeEnd
-            </div>
-            <div class="col-sm-6 font-weight-bold">
-                @activity.Name
-            </div>
-            <div class="col-sm-2 font-weight-bold">
-                @activity.ActivityType.Name
-            </div>
-            <div class="col-sm-9 font-italic">
-                @activity.ActivityType.Description
-            </div>
-            @if (@activity.ActivityType.Name == "Föreläsning") {
-            <div class="col-sm-3 font-normal" style="padding-top:6px; font-size:0.85em; text-align:right; color:#d00;">
-                Lämna inlämningsuppgift
-            </div>
+        <div>
+            @foreach (var item in Model.Modules)
+            {
+                <div class="row stuModuleRow">
+                    @{
+
+                        var moduleStart = item.StartTime.ToString("dd/MM", ci);  // var moduleStart = String.Format("{0:d/M/yyyy HH:mm:ss}", item.StartTime);
+                        var moduleEnd = item.EndTime.ToString("dd/MM", ci);      // var moduleEnd = item.EndTime.ToString("yyddMM hh:mm", ci);
+
+                    }
+                    @*<div class="col-md-9 col-sm-8">*@
+                    <a href="#activities-@item.Id" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample"
+                       class="col-md-9 col-sm-8 stuModuleLink" style="" onclick="ToggleDocs(@item.Id);">
+                        <i id="Ico-@item.Id" class="fa fa-plus stuModuleIcon"></i> @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                    @*</div>*@
+
+                    @*<div class="col-md-3 col-sm-4 col- text-right stuModuleDate">*@
+                    <a href="#activities-@item.Id" class="col-md-3 col-sm-4 col- text-right stuModuleDate" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" style="">
+                        @moduleStart - @moduleEnd
+                    </a>
+                    @*</div>*@
+
+                    <div id="Docs-@item.Id" class="col-sm-12" style="margin-top:5px; display:none;">
+                        @*stuModuleDocHidden*@
+                        <div style="font-style:italic"> @Html.DisplayFor(modelItem => item.Description)</div>
+                        <div class="col-sm-12 stuModuleDocArea">
+                            <div class="col-sm-12"><b>Moduldokument</b></div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument</div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument 2</div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument 4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="activities-@item.Id" class="collapse">
+                    @foreach (var activity in item.ModuleActivities.Where(a => a.ModuleId == item.Id))
+                    {
+                        var timeStart = activity.StartDate.ToString("yyMMdd hh:mm"); /*yyyy - MM - dd hh: mm*/
+                        var timeEnd = activity.StopDate.ToString("yyMMdd hh:mm");
+
+                        <div class="row actRow">
+                            <div class="col-sm-4 font-weight-bold">
+                                @timeStart - @timeEnd
+                            </div>
+                            <div class="col-sm-6 font-weight-bold">
+                                @activity.Name
+                            </div>
+                            <div class="col-sm-2 font-weight-bold">
+                                @activity.ActivityType.Name
+                            </div>
+                            <div class="col-sm-9 font-italic">
+                                @activity.ActivityType.Description
+                            </div>
+                            @if (@activity.ActivityType.Name == "Föreläsning")
+                            {
+                                <div class="col-sm-3 font-normal actInlamning">
+                                    Lämna inlämningsuppgift
+                                </div>
+                            }
+
+                            <hr />
+
+                            <div class="col-sm-12" style="margin-top:0; margin-bottom:0; background:#fafafa; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
+                                <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; font-size:0.85em;">
+                                    <div class="col-sm-12"><b>Aktivitetsdokument</b></div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Akt.dokument</div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 2</div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 4</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             }
 
-            <hr />
-
-            <div class="col-sm-12" style="margin-top:0; margin-bottom:0; background:#fafafa; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
-                <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; font-size:0.85em;">
-                    <div class="col-sm-12"><b>Dokument</b></div>
-                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument</div>
-                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 2</div>
-                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
-                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 4</div>
-                </div>
-            </div>
         </div>
-        }
-    </div>
     }
-</div>
+}
+
+@{if (Model == null)
+    {
+        <br />
+        <h3>@ViewData["Rubrik"]</h3>
+    }
+}
