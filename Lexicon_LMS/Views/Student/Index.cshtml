@@ -22,19 +22,19 @@
             </dl>
         </div>
 
-        <div class="col-sm-12" style="margin-top:0; margin-bottom:20px; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
-            <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; font-size:0.85em;">
+        @*<div class="col-sm-12" style="margin-top:0; margin-bottom:20px; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
+            <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; padding-top:5px; font-size:0.85em;">
                 <div class="col-sm-12"><b>Kursdokument</b></div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 2</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
                 <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 4</div>
             </div>
-        </div>
+        </div>*@
 
         <h4 class="row text-white stuModules">Moduler</h4>
 
-        <div>
+        <div style="padding-bottom:30px;">
             @foreach (var item in Model.Modules)
             {
                 <div class="row stuModuleRow">
@@ -60,21 +60,24 @@
                     <div id="Docs-@item.Id" class="col-sm-12" style="margin-top:5px; display:none;">
                         @*stuModuleDocHidden*@
                         <div style="font-style:italic"> @Html.DisplayFor(modelItem => item.Description)</div>
-                        <div class="col-sm-12 stuModuleDocArea">
-                            <div class="col-sm-12"><b>Moduldokument</b></div>
-                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument</div>
-                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument 2</div>
+                        @*<div class="col-sm-12 stuModuleDocArea" style="margin-top:5px; padding-top:5px; margin-bottom:0; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
+                            <div class="col-sm-12"><b>Dokument</b></div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Schema</div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Introduktion till modulen</div>
+                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Moduldokument</div>
                             <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
-                            <div class="col-sm-3 stuModuleDocItem"><i class="far fa-file"></i> Kursdokument 4</div>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
 
                 <div id="activities-@item.Id" class="collapse">
                     @foreach (var activity in item.ModuleActivities.Where(a => a.ModuleId == item.Id))
                     {
-                        var timeStart = activity.StartDate.ToString("yyMMdd hh:mm"); /*yyyy - MM - dd hh: mm*/
-                        var timeEnd = activity.StopDate.ToString("yyMMdd hh:mm");
+                        // var timeStart = activity.StartDate.ToString("yyMMdd hh:mm"); /*yyyy - MM - dd hh: mm*/
+                        //var timeEnd = activity.StopDate.ToString("yyMMdd hh:mm");
+
+                        var timeStart = activity.StartDate.ToString("d/MM hh:mm", ci);
+                        var timeEnd = activity.StopDate.ToString("d/MM hh:mm", ci);
 
                         <div class="row actRow">
                             <div class="col-sm-4 font-weight-bold">
@@ -89,23 +92,23 @@
                             <div class="col-sm-9 font-italic">
                                 @activity.ActivityType.Description
                             </div>
-                            @if (@activity.ActivityType.Name == "Föreläsning")
+                            @*@if (@activity.ActivityType.Name == "Föreläsning")
                             {
                                 <div class="col-sm-3 font-normal actInlamning">
                                     Lämna inlämningsuppgift
                                 </div>
-                            }
+                            }*@
 
                             <hr />
 
                             <div class="col-sm-12" style="margin-top:0; margin-bottom:0; background:#fafafa; border-top:1px solid #bbbbbb; border-bottom:0; overflow:hidden;">
-                                <div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; font-size:0.85em;">
+                                @*<div class="col-sm-12" style="margin-top:0; margin-bottom:5px; margin-left:-15px; padding:0; padding-top:5px; font-size:0.85em;">
                                     <div class="col-sm-12"><b>Aktivitetsdokument</b></div>
-                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Akt.dokument</div>
-                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 2</div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Schema</div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Filmlista</div>
                                     <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kommentarer och bilder från föreläsningen</div>
-                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Kursdokument 4</div>
-                                </div>
+                                    <div class="col-sm-3" style="display:inline;"><i class="far fa-file"></i> Övningsuppgifter</div>
+                                </div>*@
                             </div>
                         </div>
                     }

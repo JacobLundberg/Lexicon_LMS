@@ -4,29 +4,28 @@
 // Write your JavaScript code.
 
 function ToggleDocs(id) {
-    var docBox = document.getElementById("Docs-" + id);
+    // var docBox = document.getElementById("Docs-" + id);
     var docIco = document.getElementById("Ico-" + id);
 
-    if (docBox.style.display == "none") {
-        docBox.style.display = "block";
-        //docBox.classList.remove("stuModuleDocHidden");
-        //docBox.classList.add("stuModuleDocShow");
-        
+    //if (docBox.style.display == "none") {
+    //    docBox.style.display = "block";
+    //    docIco.classList.remove("fa-plus");
+    //    docIco.classList.add("fa-minus");
+    //}
+    //else {
+    //    docBox.style.display = "none";
+    //    docIco.classList.remove("fa-minus");
+    //    docIco.classList.add("fa-plus");
+    //}
+
+    if (docIco.classList.contains("fa-plus")) {
         docIco.classList.remove("fa-plus");
         docIco.classList.add("fa-minus");
-
-        
     }
     else {
-        docBox.style.display = "none";
-
-        //docBox.classList.remove("stuModuleDocShow");
-        //docBox.classList.add("stuModuleDocHidden");
-
         docIco.classList.remove("fa-minus");
         docIco.classList.add("fa-plus");
     }
-    // alert("css: " + docBox.classList);
 
     return false;
 }
