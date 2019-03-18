@@ -20,7 +20,10 @@ namespace Lexicon_LMS.Models
 		[Display(Name = "Beskrivning")]
 		public string Description { get; set; }
 
-		[Required]
+        [Required]
+        public string FileName { get; set; }
+
+        [Required]
 		[Display(Name = "Timestamp")]
 		public DateTime Timestamp { get; set; }
 

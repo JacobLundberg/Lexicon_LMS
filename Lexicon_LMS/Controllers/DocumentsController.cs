@@ -181,6 +181,7 @@ namespace Lexicon_LMS.Controllers
                 doc.Name = dvm.Name;
                 doc.Description = dvm.Description;
                 doc.ApplicationUserId = dvm.ApplicationUserId;
+                doc.FileName = dvm.FileName;
                 doc.Timestamp = timestamp;
                 doc.CourseId = dvm.CourseId;
                 doc.ModuleId = dvm.ModuleId;

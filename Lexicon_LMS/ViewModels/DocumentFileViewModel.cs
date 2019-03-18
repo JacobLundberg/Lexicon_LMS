@@ -13,6 +13,9 @@ namespace Lexicon_LMS.ViewModels
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
 
+        [Required]
+        public string FileName { get; set; }
+
         [Display(Name = "Timestamp")]
         public DateTime Timestamp { get; set; }
 
