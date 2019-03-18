@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Lexicon_LMS.ViewModels
 {
@@ -16,11 +13,9 @@ namespace Lexicon_LMS.ViewModels
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
 
-        [Required]
         [Display(Name = "Timestamp")]
         public DateTime Timestamp { get; set; }
 
-        [Required]
         [Display(Name = "Användare")]
         public string ApplicationUserId { get; set; }
 

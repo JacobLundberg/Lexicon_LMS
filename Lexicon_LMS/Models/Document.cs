@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lexicon_LMS.Models
 {
-	public class Document
+	public class Document 
 	{
 		[Key]
 		[Required]
@@ -26,7 +26,7 @@ namespace Lexicon_LMS.Models
 
 		[Required]
 		[Display(Name = "Användare")]
-		public int ApplicationUserId { get; set; }
+		public string ApplicationUserId { get; set; }
 
 		[Display(Name = "Kurs")]
 		public int? CourseId { get; set; }
