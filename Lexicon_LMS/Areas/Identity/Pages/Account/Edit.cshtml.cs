@@ -104,7 +104,6 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
             if (userEmail != "")
             {
-                
                 ApplicationUser user = await _userManager.FindByEmailAsync(userEmail);
 
                 Input = new InputModel();
@@ -122,7 +121,6 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                     }
                     Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name", role);
 
-                    // var actCourse = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == user.Id).CourseId;
                     var actCourse = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == user.Id);
                     if (actCourse != null)
                         Input.CourseId = actCourse.CourseId;
@@ -239,7 +237,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                     }
                 }
 
-                //if (changePassword)
+                //if (changePassword)  //--- AVSTÄNGD PGA OTILLRÄCKLIG INDATAKONTROLL ---//
                 //{
                 //    //if (PasswordValidator != null)
                 //    //{
@@ -269,18 +267,13 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                 if (returnUrl == "")
                 {
-                    // if (returnUrl == "details")
                         return LocalRedirect("/Identity/Account/Details?userEmail=" + user.UserName);  // /Identity/Account/Details?userEmail=s@s.com
                 }
-                //else
-                //{
-                //    return ...
-                //}
             }
 
             //--- Bygg utdata vid reload av formuläret ---
 
-            // Roll, Roller
+            // Roll/Roller
             user = await _userManager.FindByIdAsync(user.Id.ToString());
             var role = "";
 
@@ -291,7 +284,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             }
             Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name", role);
 
-            // Kurs, Kurser
+            // Kurs/Kurser
             var actCourse2 = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == user.Id);
             if (actCourse2 != null)
             {
