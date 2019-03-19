@@ -18,7 +18,7 @@ namespace Lexicon_LMS.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Beskrivning")]
+        [Display(Name = "Modulbeskrivning")]
         public string Description { get; set; }
 
         [Display(Name = "Startdatum")]

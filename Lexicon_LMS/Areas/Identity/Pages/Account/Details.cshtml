@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Användare ";
 }
-
+<br />
 <h1>@ViewData["Title"]</h1>
 
 @{
@@ -14,13 +14,14 @@
         {
             <div class="alert alert-success">
                 <strong>@TempData["newUser"]</strong><br />
-                @{ if (@TempData["newUserData"] != null) {
+                @{ if (@TempData["newUserData"] != null)
+                    {
                         @TempData["newUserData"]
                     }
                 }
             </div>
         }
-    
+
         <div>
             <hr />
             <dl class="row">
@@ -44,6 +45,13 @@
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.Input.Role)
                 </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Input.CourseName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Input.CourseName)
+                </dd>
             </dl>
         </div>
 
@@ -51,7 +59,7 @@
         <div class="row">
             <div class="col-md-4">
                 @*btn btn-primary*@
-                <a class="" asp-area="Identity" asp-page="/Account/Edit" asp-route-userEmail="@Model.Input.Email" asp-route-returnTo="details">Redigera</a>
+                <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Edit" asp-route-userEmail="@Model.Input.Email">Redigera</a>
             </div>
         </div>
     }
@@ -63,18 +71,10 @@
     }
 }
 
-@*@if (@Model.ReturnUrl != "")
-{
-     var link = "/Account/" + @Model.ReturnUrl;
-    <br>
-    <div class="row">
-        <div class="col-md-4">
-            <a asp-page="@Model.ReturnUrl">Tillbaks till listan</a>
-        </div>
-    </div>
-}*@
-
-<a class="" asp-page="/Account/Index">Listning av användare</a>
+<hr />
+<div>
+    <a class="btn btn-sm btn-primary" asp-page="/Account/Index"><i class="fas fa-undo-alt"></i> Tillbaka till användarna</a>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

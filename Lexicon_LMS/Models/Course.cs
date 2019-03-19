@@ -16,7 +16,7 @@ namespace Lexicon_LMS.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Beskrivning")]
+        [Display(Name = "Kursbeskrivning")]
         public string Description { get; set; }
 
         [Display(Name = "Startdatum")]

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Redigera användare";
 }
-
+<br />
 <h1>@ViewData["Title"]</h1>
 
 @{
@@ -34,31 +34,50 @@
                     </div>
                     <input asp-for="Input.OrgEmail" class="form-control" />
 
-                    @*<br />
-                        <h5>Lösenord ändras bara om nya anges</h5>
-                        <div class="form-group">
-                            <label asp-for="Input.Password"></label>
-                            <input asp-for="Input.Password" class="form-control" />
-                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Input.ConfirmPassword"></label>
-                            <input asp-for="Input.ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                        </div>*@
+                    <div class="form-group">
+                        <label asp-for="Input.CourseId" style="padding-right:15px;"></label>
+                        <select asp-for="Input.CourseId" asp-items="@Model.Input.CourseList">
+                            <option value="0"></option>
+                        </select>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary">Spara</button>
+                    @*<br />
+                    <h5>Lösenord ändras bara om nytt anges</h5>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>*@
+
+
+                    @*<div class="form-group">
+            <label asp-for="Input.CourseId" style="padding-right:15px;"></label>
+            <select id="Input.CourseId" name="Input.CourseId" asp-items="@Model.Input.CourseList"></select>
+        </div>*@
+
+
+
+
+
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Spara</button>
 
                     @*@if (@Model.ReturnUrl != "")
-                    {
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a asp-route-returnurl="@Model.ReturnUrl">Tillbaka</a>
+        {
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <a asp-route-returnurl="@Model.ReturnUrl">Tillbaka</a>
 
-                            </div>
-                        </div>
-                    }*@
+                </div>
+            </div>
+        }*@
+
 
                 </form>
             </div>
@@ -83,8 +102,10 @@
     }
 }
 @*ReturnUrl:  @Model.ReturnUrl*@
-<br />
-<a class="" asp-page="/Account/Index">Listning av användare</a>
+<hr />
+<div>
+    <a class="btn btn-sm btn-primary" asp-page="/Account/Index"><i class="fas fa-undo-alt"></i> Tillbaka till användarna</a>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

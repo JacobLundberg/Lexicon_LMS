@@ -1,7 +1,7 @@
 ﻿@model Lexicon_LMS.Models.ActivityModel
 
 @{
-    ViewData["Title"] = "Details " + @Html.DisplayFor(model => model.Name);
+    ViewData["Title"] = "Aktivitetsdetaljer " + @Html.DisplayFor(model => model.Name);
 }
 
 <h1>@TempData.Peek("LastCourseName") / @TempData.Peek("LastModuleName") / @Html.DisplayFor(model => model.Name)</h1>

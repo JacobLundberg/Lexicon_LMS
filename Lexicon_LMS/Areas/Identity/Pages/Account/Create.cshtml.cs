@@ -14,11 +14,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using Lexicon_LMS.Data;
 
 namespace Lexicon_LMS.Areas.Identity.Pages
 {
-    
     [Authorize(Roles = "Teacher")]
     public class RegisterModel : PageModel
     {
@@ -27,19 +26,21 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
-        public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+        public RegisterModel(UserManager<ApplicationUser> userManager,
+                             SignInManager<ApplicationUser> signInManager, 
+                             ILogger<RegisterModel> logger, 
+                             IEmailSender emailSender, 
+                             RoleManager<IdentityRole> roleManager,
+                             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -48,6 +49,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         public string ReturnUrl { get; set; }
         public object ViewBag { get; private set; }
 
+        public string CourseName { get; set; }
         //public string UserRole { get; set; }
 
         public class InputModel
@@ -79,70 +81,110 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
             [Display(Name= "Select")]
             public IEnumerable<SelectListItem> Roles { get; set; }
+
+            public int CourseId { get; set; }
+            public IEnumerable<SelectListItem> Courses { get; set; }
         }
 
-        public IActionResult OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null, int courseId = 0)
         {
+            ReturnUrl = returnUrl;
+
             if (Input == null)
             {
                 Input = new InputModel();
-                Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
-            }
+                Input.CourseId = courseId;
 
-            ReturnUrl = returnUrl;
+                if (courseId > 0)
+                {
+                    Input.Courses = new SelectList(_context.Course.Where(c => c.Id == courseId).ToList(), "Id", "Name", courseId);
+                    CourseName = _context.Course.Where(c => c.Id == courseId).SingleOrDefault().Name.ToString();
+                    Input.Roles = new SelectList(_roleManager.Roles.Where(r => r.Name == "Student").ToList(), "Name", "Name", "Student");  // , "Student"
+                }
+                else
+                {
+                    Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
+                }
+            }
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
 
-
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    var result = await _userManager.CreateAsync(user, Input.Password);
 
-                    //--- Koppla User till Role ---------------------
-                    var svar = await _userManager.AddToRoleAsync(user, Input.Role);
-                    if (!svar.Succeeded)
+                    if (result.Succeeded)
                     {
-                        throw new Exception(string.Join("\n", svar.Errors));
+                        _logger.LogInformation("User created a new account with password.");
+
+                        //--- Koppla User till Role ---------------------
+                        var svar = await _userManager.AddToRoleAsync(user, Input.Role);
+                        if (!svar.Succeeded)
+                        {
+                            throw new Exception(string.Join("\n", svar.Errors));
+                        }
+
+                        #region SendEmail
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.Page(
+                        //    "/Account/ConfirmEmail",
+                        //    pageHandler: null,
+                        //    values: new { userId = user.Id, code = code },
+                        //    protocol: Request.Scheme);
+
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                        // await _signInManager.SignInAsync(user, isPersistent: false);
+                        #endregion
+
+                        if (Input.CourseId > 0)  // Koppla användare till kurs
+                        {
+                            var newCourse = new ApplicationUserCourse
+                            {
+                                ApplicationUserId = user.Id,
+                                CourseId = Input.CourseId
+                            };
+
+                            _context.Add(newCourse);
+                            _context.SaveChanges();
+                        }
+
+                        if (returnUrl == "" || returnUrl == null) {
+                            string roll = "";
+                            if (Input.Role == "Teacher")
+                                roll = "lärare";
+                            else
+                                roll = "elev";
+
+                            TempData["newUser"] = "Skapade ny " + roll;
+                            TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
+
+                            returnUrl = "/Identity/Account/Details?userEmail=" + Input.Email;
+                        }
+                        else
+                        {
+                            TempData["newUserData"] = "Skapade ny elev på kursen: " + Input.Name + " (" + Input.Email + ")";
+
+                            returnUrl = returnUrl + "/" + Input.CourseId;  //  courseId=2&returnUrl=/Courses/Details
+                        }
+
+                        return LocalRedirect(returnUrl);
                     }
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    // await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    string roll = "";
-                    if (Input.Role == "Teacher")
-                        roll = "lärare";
-                    else
-                        roll = "elev";
-                    TempData["newUser"] = "Skapade ny " + roll;  //  "Skapade användaren '" + Input.Name + "' (" + Input.Role + ")";
-                    TempData["newUserData"] = Input.Name + " (" + Input.Email + ")";
-
-                    // return LocalRedirect(returnUrl);
-                    return RedirectToAction("Index", "Courses");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
-
+            
             // If we got this far, something failed, redisplay form
             Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
             return Page();

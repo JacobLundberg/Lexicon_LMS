@@ -1,6 +1,7 @@
 ﻿using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +14,38 @@ namespace Lexicon_LMS.Controllers
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CoursesController(ApplicationDbContext context)
+        public CoursesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+
+        // GET: Courses
+        public async Task<IActionResult> CourseStudents()
+        {
+            ApplicationUser currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            ApplicationUserCourse actCourse = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == currentUser.Id);
+            Course classMates;
+
+            classMates = await _context
+                .Course
+                .Include(aus => aus.ApplicationUsers)
+                    .ThenInclude(au => au.ApplicationUser)
+                .FirstOrDefaultAsync(c => c.Id == _context
+                    .UserCourse
+                    .FirstOrDefault(u => u.ApplicationUserId == _userManager
+                        .GetUserId(HttpContext.User)
+                        .ToString())
+                    .CourseId);
+
+            if (classMates != null)
+                ViewData["Rubrik"] = "Klasskompisar på";
+            else
+                ViewData["Rubrik"] = "Du verkar inte gå på någon kurs - kontakta din lärare eller skolan";
+
+            return View(classMates);
         }
 
         // GET: Courses
@@ -30,12 +59,6 @@ namespace Lexicon_LMS.Controllers
                 .Include(auc => auc.ApplicationUsers)
                 .ThenInclude(au => au.ApplicationUser)
                 .ToListAsync());
-
-            //return View(await _context
-            //    .Course
-            //    .Include("Modules")
-            //    .ThenInclude("ActivityModels")
-            //    .ToListAsync());
         }
 
         // GET: Courses/Details/5

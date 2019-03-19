@@ -1,26 +1,50 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Skapa ny användare";
-}
+    if (Model.Input.CourseId > 0)
+    {
+        // string courseName = Model.Input.Courses.Where(c => c.Value.Equals(Model.Input.CourseId.ToString())).ToString();
+        ViewData["Title"] = "Lägg till elev i kursen '" + @Model.CourseName + "'";
+    }
+    else
+    {
+        ViewData["Title"] = "Skapa ny användare";
+    }
 
+
+}
+<br />
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post" autocomplete="off">
-            @*<h4>Skapa ny användare.</h4>*@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Input.Role" style="padding-right:15px;"></label>
-                <select id="Input.Role" name="Input.Role">
-                    <option value=""></option>
-                    <option value="Student">Student</option>
-                    <option value="Teacher">Teacher</option>
-                </select>
-            </div>
+            @{ if (@Model.Input.CourseId > 0)
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.Role" style="padding-right:15px;"></label>
+                        <select asp-for="Input.Role" asp-items="@Model.Input.Roles"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.CourseId" style="padding-right:15px;"></label>
+                        <select asp-for="Input.CourseId" asp-items="@Model.Input.Courses"></select>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.Role" style="padding-right:15px;"></label>
+                        <select asp-for="Input.Role" asp-items="@Model.Input.Roles">
+                            <option value="0"></option>
+                        </select>
+                    </div>
+
+                }
+            }
 
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
@@ -43,11 +67,20 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
+            @{ if (@Model.Input.CourseId > 0)
+                {
+                    <a class="btn btn-danger btn-sm" asp-controller="Courses" asp-action="Details" asp-route-id="@Model.Input.CourseId">Avbryt</a>
+                }
+            }
 
-
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-sm btn-primary">Skapa användare</button>
         </form>
     </div>
+</div>
+
+<hr />
+<div>
+    <a class="btn btn-sm btn-primary" asp-page="/Account/Index"><i class="fas fa-undo-alt"></i> Tillbaka till användarna</a>
 </div>
 
 @section Scripts {

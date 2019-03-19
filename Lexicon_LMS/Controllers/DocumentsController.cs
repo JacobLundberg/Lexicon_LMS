@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿
 using Lexicon_LMS.Data;
 using Lexicon_LMS.Models;
+using Lexicon_LMS.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Lexicon_LMS
+namespace Lexicon_LMS.Controllers
 {
     public class DocumentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DocumentsController(ApplicationDbContext context)
+        public DocumentsController(ApplicationDbContext context, IHostingEnvironment environment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _hostingEnvironment = environment;
+            _userManager = userManager;
         }
 
         // GET: Documents
@@ -44,9 +52,14 @@ namespace Lexicon_LMS
         }
 
         // GET: Documents/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            DocumentFileViewModel doc = new DocumentFileViewModel();
+            DateTime timestamp = DateTime.Now;
+            doc.Timestamp = timestamp;
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            doc.ApplicationUserId = currentUser.Id.ToString();
+            return View(doc);
         }
 
         // POST: Documents/Create
@@ -148,6 +161,35 @@ namespace Lexicon_LMS
         private bool DocumentExists(int id)
         {
             return _context.Document.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file, DocumentFileViewModel dvm)
+        {
+            if (file == null || file.Length == 0)
+                return Content("file not selected");
+            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "files");
+            var filePath = Path.Combine(uploads, file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            if (ModelState.IsValid)
+            {
+                Document doc = new Document();
+                DateTime timestamp = DateTime.Now;
+                doc.Name = dvm.Name;
+                doc.Description = dvm.Description;
+                doc.ApplicationUserId = dvm.ApplicationUserId;
+                doc.FileName = dvm.FileName;
+                doc.Timestamp = timestamp;
+                doc.CourseId = dvm.CourseId;
+                doc.ModuleId = dvm.ModuleId;
+                doc.ActivityId = dvm.ActivityId;
+                _context.Add(doc);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
