@@ -82,7 +82,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             [Display(Name= "Select")]
             public IEnumerable<SelectListItem> Roles { get; set; }
 
-            [Display(Name = "Kurs")]
+            [Display(Name = "Koppla till kurs")]
             public int CourseId { get; set; }
             
             public SelectList CourseList { get; set; }
