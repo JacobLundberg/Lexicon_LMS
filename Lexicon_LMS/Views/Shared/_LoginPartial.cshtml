@@ -2,13 +2,13 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@{
-    var user = await UserManager.FindByEmailAsync(User.Identity.Name);
-    var userName = user.Name;
-}
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
-    {
+	{
+		var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+		var userName = user.Name;
+
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Hantera">Inloggad: <b>@userName</b> </a>
         </li>
