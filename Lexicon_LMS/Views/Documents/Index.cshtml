@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Skapa ny dokument</a>
 </p>
 <table class="table">
     <thead>
@@ -48,9 +48,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Timestamp)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUserId)
-            </td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ApplicationUserId)
+			</td>
             <td>
                 @Html.DisplayFor(modelItem => item.CourseId)
             </td>

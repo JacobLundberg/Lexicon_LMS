@@ -174,14 +174,15 @@ namespace Lexicon_LMS.Controllers
             {
                 await file.CopyToAsync(stream);
             }
+
             if (ModelState.IsValid)
             {
                 Document doc = new Document();
                 DateTime timestamp = DateTime.Now;
                 doc.Name = dvm.Name;
                 doc.Description = dvm.Description;
-                doc.ApplicationUserId = dvm.ApplicationUserId;
-                doc.FileName = dvm.FileName;
+				doc.ApplicationUserId = dvm.ApplicationUserId;
+				doc.FileName = dvm.FileName;
                 doc.Timestamp = timestamp;
                 doc.CourseId = dvm.CourseId;
                 doc.ModuleId = dvm.ModuleId;
