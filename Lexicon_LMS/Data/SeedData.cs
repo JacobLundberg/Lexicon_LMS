@@ -55,7 +55,7 @@ namespace Lexicon_LMS
                     // Teacher
                     var newUser = new newUser();
                     newUser.Name = "Dimitris";
-                    newUser.Email = "t@t.com";
+                    newUser.Email = "dimitris@teacher.com";
                     newUser.Password = "Teacher-1";
                     newUser.Role = "Teacher";
                     await CreateUserAsync(userManager, roleManager, newUser);
@@ -63,32 +63,45 @@ namespace Lexicon_LMS
                     // Student
                     newUser = new newUser();
                     newUser.Name = "Fredrik";
-                    newUser.Email = "s@s.com";
+                    newUser.Email = "fredrik@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
                     newUser.Name = "Göran";
-                    newUser.Email = "s1@s.com";
+                    newUser.Email = "goran@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
                     newUser.Name = "Jacob";
-                    newUser.Email = "s2@s.com";
+                    newUser.Email = "jacob@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
                     newUser.Name = "Saber";
-                    newUser.Email = "s3@s.com";
+                    newUser.Email = "saber@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
+                    newUser = new newUser();
+                    newUser.Name = "Melania";
+                    newUser.Email = "melania@student.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Carola";
+                    newUser.Email = "carola@student.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
 
                     var indexPicker = new Random();
 
@@ -173,7 +186,7 @@ namespace Lexicon_LMS
                                 var stopDate = startDate.AddDays(indexPicker.Next(0, 3));
                                 activityModels.Add(new ActivityModel
                                 {
-                                    Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)]+" "+module.Name,
+                                    Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)] + " " + module.Name,
                                     ModuleId = module.Id,
                                     ActivityTypeId = activityTypes[activityTypeIndex].Id,
                                     Description = activityTypes[activityTypeIndex].Name + " med " + randomNames[indexPicker.Next(0, randomNames.Length - 1)] + ".",
