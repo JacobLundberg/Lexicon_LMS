@@ -5,9 +5,7 @@
 @{
     var user = await UserManager.FindByEmailAsync(User.Identity.Name);
     var userName = user.Name;
-
 }
-
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
