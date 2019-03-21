@@ -39,17 +39,17 @@ if (TempData["newUser"] != null)
             <tbody>
                 @foreach (var item in Model.Users)
                 {
-                    <tr onclick="window.location.href='Account/Details?@item.Email'">
-                        <td>
+                    <tr onclick="window.location.href='Account/Details?userEmail=@item.Email'">
+                        <td title="Klicka för at visa detaljer för @item.Name">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
+                        <td title="Klicka för at visa detaljer för @item.Name">
                             @Html.DisplayFor(modelItem => item.Username)
                         </td>
-                        <td>
+                        <td title="Klicka för at visa detaljer för @item.Name">
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
-                        <td>
+                        <td title="Klicka för at visa detaljer för @item.Name">
                             @Html.DisplayFor(modelItem => item.Role)
                         </td>
                     </tr>
