@@ -76,12 +76,12 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             public string ConfirmPassword { get; set; }
 
             [Required(ErrorMessage = "{0} måste anges")]
+            [StringLength(20, MinimumLength = 1)]
             [Display(Name = "Användartyp")]
             public string Role { get; set; }
-
-            [Display(Name= "Select")]
             public IEnumerable<SelectListItem> Roles { get; set; }
 
+            [Display(Name = "Koppla till kurs")]
             public int CourseId { get; set; }
             public IEnumerable<SelectListItem> Courses { get; set; }
         }
@@ -104,6 +104,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                 else
                 {
                     Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
+                    Input.Courses = new SelectList(_context.Course.ToList(), "Id", "Name", Input.CourseId);
                 }
             }
 
@@ -118,13 +119,14 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                 if (user != null)
                 {
+                    // Skapa användaren
                     var result = await _userManager.CreateAsync(user, Input.Password);
 
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created a new account with password.");
 
-                        //--- Koppla User till Role ---------------------
+                        // Koppla användaren till en roll
                         var svar = await _userManager.AddToRoleAsync(user, Input.Role);
                         if (!svar.Succeeded)
                         {
@@ -147,6 +149,7 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                         if (Input.CourseId > 0)  // Koppla användare till kurs
                         {
+                            // Koppla användare till en kurs
                             var newCourse = new ApplicationUserCourse
                             {
                                 ApplicationUserId = user.Id,
@@ -184,9 +187,27 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                     }
                 }
             }
-            
+
+            // Skapa data vid fel
+            if (Input.CourseId > 0)
+            {
+                // Bara student
+                Input.Roles = new SelectList(_roleManager.Roles.Where(r => r.Name == "Student").ToList(), "Name", "Name", "Student");  // , "Student"
+                // Bara rätt kurs i listan
+                Input.Courses = new SelectList(_context.Course.Where(c => c.Id == Input.CourseId).ToList(), "Id", "Name", Input.CourseId);
+                // Kursens namn
+                CourseName = _context.Course.Where(c => c.Id == Input.CourseId).SingleOrDefault().Name.ToString();
+            }
+            else
+            {
+                // Lista roller
+                Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
+                // Lista kurser
+                Input.Courses = new SelectList(_context.Course.ToList(), "Id", "Name", Input.CourseId);
+            }
+
+
             // If we got this far, something failed, redisplay form
-            Input.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
             return Page();
         }
     }
