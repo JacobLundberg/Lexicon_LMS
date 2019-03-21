@@ -1,15 +1,22 @@
 ﻿@model Lexicon_LMS.Models.ActivityModel
+@using System.Globalization;
 
 @{
     ViewData["Title"] = "Skapa aktivitet i modulen: " + @TempData.Peek("LastModuleName");
 }
-
+<br />
 <h1>Skapa aktivitet i modulen: @TempData.Peek("LastModuleName")</h1>
+<p>Modulen pågår: @ViewData["modTimeStart"] - @ViewData["modTimeEnd"]</p>
+<p></p>
 
+<p></p>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <input id="startTime" hidden="" value="@ViewData["startTime"]" />
+            <input id="endTime" hidden="" value="@ViewData["endTime"]" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ActivityTypeId" class="control-label"></label>
@@ -17,6 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
+                
                 <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -24,11 +32,13 @@
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
+                <span class="text-danger">@ViewData["errorTimeStart"]</span>
             </div>
             <div class="form-group">
                 <label asp-for="StopDate" class="control-label"></label>
                 <input asp-for="StopDate" class="form-control" />
                 <span asp-validation-for="StopDate" class="text-danger"></span>
+                <span class="text-danger">@ViewData["errorTimeEnd"]</span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -40,7 +50,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Skapa aktivitet</button>
+                <button onsubmit="myFunction()" type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Skapa aktivitet</button>
             </div>
         </form>
     </div>

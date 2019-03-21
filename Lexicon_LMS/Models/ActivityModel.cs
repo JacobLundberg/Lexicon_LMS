@@ -26,9 +26,11 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Namn")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Slutdatum")]
         public DateTime StopDate { get; set; }
 
