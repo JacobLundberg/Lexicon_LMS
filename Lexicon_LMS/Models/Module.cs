@@ -21,10 +21,12 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Modulbeskrivning")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Startdatum")]
         [DataType(DataType.Date)]
         public DateTime StartTime { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Slutdatum")]
         [DataType(DataType.Date)]
         public DateTime EndTime { get; set; }
