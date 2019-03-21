@@ -39,18 +39,18 @@ if (TempData["newUser"] != null)
             <tbody>
                 @foreach (var item in Model.Users)
                 {
-                    <tr class="tablecell">
+                    <tr onclick="window.location.href='Account/Details?@item.Email'">
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Name</a>
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Username</a>
+                            @Html.DisplayFor(modelItem => item.Username)
                         </td>
                         <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Email</a>
+                            @Html.DisplayFor(modelItem => item.Email)
                         </td>
                         <td>
-                            @item.Role
+                            @Html.DisplayFor(modelItem => item.Role)
                         </td>
                     </tr>
                 }
