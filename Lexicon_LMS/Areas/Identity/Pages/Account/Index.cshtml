@@ -27,7 +27,7 @@ if (TempData["newUser"] != null)
 @{
     if (@Model.Users != null)
     {
-        <table class="table">
+        <table class="table table-hover table-condensed">
             <thead>
                 <tr class="tablecell">
                     <th>Namn</th>
@@ -39,18 +39,18 @@ if (TempData["newUser"] != null)
             <tbody>
                 @foreach (var item in Model.Users)
                 {
-                    <tr class="tablecell">
-                        <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Name</a>
+                    <tr onclick="window.location.href='Account/Details?userEmail=@item.Email'">
+                        <td title="Klicka för at visa detaljer för @item.Name">
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Username</a>
+                        <td title="Klicka för at visa detaljer för @item.Name">
+                            @Html.DisplayFor(modelItem => item.Username)
                         </td>
-                        <td>
-                            <a class="" asp-area="Identity" asp-page="/Account/Details" asp-route-userEmail="@item.Email">@item.Email</a>
+                        <td title="Klicka för at visa detaljer för @item.Name">
+                            @Html.DisplayFor(modelItem => item.Email)
                         </td>
-                        <td>
-                            @item.Role
+                        <td title="Klicka för at visa detaljer för @item.Name">
+                            @Html.DisplayFor(modelItem => item.Role)
                         </td>
                     </tr>
                 }

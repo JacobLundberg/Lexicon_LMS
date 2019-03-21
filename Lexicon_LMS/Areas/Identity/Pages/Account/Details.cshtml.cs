@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using Lexicon_LMS.Data;
 
 namespace Lexicon_LMS.Areas.Identity.Pages
 {
@@ -27,19 +27,22 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
         public DetailsModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -49,8 +52,6 @@ namespace Lexicon_LMS.Areas.Identity.Pages
         public object ViewBag { get; private set; }
         public int? CourseId { get; set; }
 
-        //public string UserRole { get; set; }
-
         public class InputModel
         {
             [Display(Name = "Namn")]
@@ -59,12 +60,8 @@ namespace Lexicon_LMS.Areas.Identity.Pages
             [Display(Name = "Epost")]
             public string Email { get; set; }
 
-            //=== PASSWORD AVSTÄNGD ===
-            //[Display(Name = "Lösenord")]
-            //public string Password { get; set; }
-
-            //[Compare("Password", ErrorMessage = "Lösenorden är inte lika.")]
-            //public string ConfirmPassword { get; set; }
+            [Display(Name = "Kurs")]
+            public string CourseName { get; set; }
 
             [Required(ErrorMessage = "{0} måste anges")]
             [Display(Name = "Användartyp")]
@@ -83,7 +80,8 @@ namespace Lexicon_LMS.Areas.Identity.Pages
 
                 var user = await _userManager.FindByNameAsync(userEmail);  // .FindByEmailAsync(userEmail);
 
-                if (user != null) {
+                if (user != null)
+                {
                     Input = new InputModel();
                     Input.Email = user.Email;
                     Input.Name = user.Name;
@@ -94,6 +92,15 @@ namespace Lexicon_LMS.Areas.Identity.Pages
                     {
                         Input.Role = roleType.ElementAt(0);
                     }
+
+                    var Course = _context.UserCourse.FirstOrDefault(c => c.ApplicationUserId == user.Id);
+                    if (Course != null)
+                    {
+                        var CourseId = Course.CourseId;
+                        Input.CourseName = _context.Course.FirstOrDefault(v => v.Id == CourseId).Name;
+                    }
+                    else
+                        Input.CourseName = "";
                 }
             }
             else if (returnTo != "")

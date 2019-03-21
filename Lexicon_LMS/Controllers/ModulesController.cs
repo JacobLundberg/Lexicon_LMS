@@ -3,6 +3,7 @@ using Lexicon_LMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,24 @@ namespace Lexicon_LMS
           StartTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString()),
           EndTime = DateTime.Parse(TempData.Peek("LastCourseStartDate").ToString())
             };
-                return View(@module);
+
+            ViewData["courseTimeStart"] = "";
+            ViewData["startTime"] = "";
+
+            if (module.CourseId > 0)
+            {
+                var course = _context.Course.Where(c => c.Id == module.CourseId).SingleOrDefault();
+                if (course != null)
+                {
+                    CultureInfo culture = CultureInfo.CreateSpecificCulture("sv-SE");  // en-US
+                    CultureInfo ci = CultureInfo.InvariantCulture;
+                    
+                    ViewData["courseTimeStart"] = course.StartDate.ToString("dd/MM-yy", ci);
+                    ViewData["startTime"] = course.StartDate.ToString("yyyy-dd-MM");
+                }
+            }
+
+            return View(@module);
         }
 
         // POST: Modules/Create
@@ -61,14 +79,46 @@ namespace Lexicon_LMS
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,StartTime,EndTime,CourseId")] Module @module)
         {
+            Boolean timeError = false;
+
+            ViewData["errorTimeStart"] = "";
+            ViewData["errorTimeEnd"] = "";
+
+            var course = _context.Course.Where(m => m.Id == module.CourseId).SingleOrDefault();
+
             if (ModelState.IsValid)
             {
-                _context.Add(@module);
-                await _context.SaveChangesAsync();
-                var url = "~/Courses/Details/" + @module.CourseId;
-                return LocalRedirect(url);
-                //   return RedirectToAction(nameof(Index));
+                if (course != null)
+                {
+                    if (module.StartTime < course.StartDate)  // Före kurs
+                    {
+                        timeError = true;
+                        ViewData["errorTimeStart"] = "Starttid kan inte vara före kursens starttid!";
+                    }
+
+                    if (module.EndTime < module.StartTime)  // Före starttid
+                    {
+                        timeError = true;
+                        ViewData["errorTimeEnd"] = "Sluttid kan inte vara före starttid!";
+                    }
+
+                    if (timeError == false)
+                    {
+                        _context.Add(@module);
+                        await _context.SaveChangesAsync();
+                        var url = "~/Courses/Details/" + @module.CourseId;
+                        return LocalRedirect(url);
+                    }
+                }
             }
+            
+            // Skapa data vid fel
+            // CultureInfo culture = CultureInfo.CreateSpecificCulture("sv-SE");  // en-US
+            CultureInfo ci = CultureInfo.InvariantCulture;
+
+            ViewData["courseTimeStart"] = course.StartDate.ToString("dd/MM-yy", ci);
+            ViewData["startTime"] = course.StartDate.ToString("yyyy-dd-MM");
+
             return View(@module);
         }
 

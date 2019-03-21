@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Lexicon_LMS.Models
+namespace Lexicon_LMS.ViewModels
 {
-    public class Document 
+    public class DocumentFileViewModel
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         [Display(Name = "Namn")]
         public string Name { get; set; }
@@ -23,12 +16,10 @@ namespace Lexicon_LMS.Models
         [Required]
         public string FileName { get; set; }
 
-        [Required]
         [Display(Name = "Timestamp")]
         public DateTime Timestamp { get; set; }
 
-        [Required]
-        [Display(Name = "Anv�ndare")]
+        [Display(Name = "Användare")]
         public string ApplicationUserId { get; set; }
 
         [Display(Name = "Kurs")]
@@ -39,5 +30,7 @@ namespace Lexicon_LMS.Models
 
         [Display(Name = "Aktivitet")]
         public int? ActivityId { get; set; }
+
+        public LMSFormFile LMSFormFile { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace Lexicon_LMS
                     // Teacher
                     var newUser = new newUser();
                     newUser.Name = "Dimitris";
-                    newUser.Email = "t@t.com";
+                    newUser.Email = "dimitris@teacher.com";
                     newUser.Password = "Teacher-1";
                     newUser.Role = "Teacher";
                     await CreateUserAsync(userManager, roleManager, newUser);
@@ -63,32 +63,45 @@ namespace Lexicon_LMS
                     // Student
                     newUser = new newUser();
                     newUser.Name = "Fredrik";
-                    newUser.Email = "s@s.com";
+                    newUser.Email = "fredrik@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
                     newUser.Name = "Göran";
-                    newUser.Email = "s1@s.com";
+                    newUser.Email = "goran@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
                     newUser.Name = "Jacob";
-                    newUser.Email = "s2@s.com";
+                    newUser.Email = "jacob@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
                     newUser = new newUser();
-                    newUser.Name = "Göran";
-                    newUser.Email = "s3@s.com";
+                    newUser.Name = "Saber";
+                    newUser.Email = "saber@student.com";
                     newUser.Password = "Student-1";
                     newUser.Role = "Student";
                     await CreateUserAsync(userManager, roleManager, newUser);
 
+                    newUser = new newUser();
+                    newUser.Name = "Melania";
+                    newUser.Email = "melania@student.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
+
+                    newUser = new newUser();
+                    newUser.Name = "Carola";
+                    newUser.Email = "carola@student.com";
+                    newUser.Password = "Student-1";
+                    newUser.Role = "Student";
+                    await CreateUserAsync(userManager, roleManager, newUser);
 
                     var indexPicker = new Random();
 
@@ -110,7 +123,7 @@ namespace Lexicon_LMS
                     if (context.Course.Count() == 0)
                     {
                         var courses = new List<Course>();
-                        courses.Add(new Course { Name = ".NET Påbyggnadsutbildning", Description = "Programmeringskurs i Microsoft Core MVC.", StartDate = DateTime.Parse("2018-11-26") });
+                        courses.Add(new Course { Name = ".NET", Description = "Programmeringskurs i Microsoft .NET.", StartDate = DateTime.Parse("2018-11-26") });
                         courses.Add(new Course { Name = "Java", Description = "Programmeringskurs i Java.", StartDate = DateTime.Parse("2019-01-05") });
                         courses.Add(new Course { Name = "Tekniker", Description = "Lär dig bli datatekniker.", StartDate = DateTime.Parse("2019-02-25") });
                         //context.Course.RemoveRange(context.Course);
@@ -121,7 +134,7 @@ namespace Lexicon_LMS
                     // Seed ApplicationUserCourse
                     if (context.UserCourse.Count() == 0)
                     {
-                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET").Select(a => a.Id).ToArray();
                         var userIds = context.Users.Select(a => a.Id).ToArray();
 
                         var userCourses = new List<ApplicationUserCourse>();
@@ -141,7 +154,7 @@ namespace Lexicon_LMS
                     // Seed Module .NET Påbyggnadsutbildning
                     if (context.Module.Count() == 0)
                     {
-                        var courseIds = context.Course.Where(c => c.Name == ".NET Påbyggnadsutbildning").Select(a => a.Id).ToArray();
+                        var courseIds = context.Course.Where(c => c.Name == ".NET").Select(a => a.Id).ToArray();
                         var modules = new List<Module>();
                         modules.Add(new Module { Name = "C#", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "C# 7 (Objektorienterad programmering, Generics, Linq)", StartTime = DateTime.Parse("2018-11-26"), EndTime = DateTime.Parse("2018-12-14") });
                         modules.Add(new Module { Name = "Testning", CourseId = courseIds[indexPicker.Next(0, courseIds.Length - 1)], Description = "Unittestning mm.", StartTime = DateTime.Parse("2018-12-17"), EndTime = DateTime.Parse("2019-01-02") });
@@ -169,11 +182,11 @@ namespace Lexicon_LMS
                             {
                                 var activityTypeIndex = indexPicker.Next(0, activityTypes.Length - 1);
                                 var dateIndex = (module.EndTime - module.StartTime).Days;
-                                var startDate = module.StartTime.AddDays(indexPicker.Next(0, dateIndex - 3));
-                                var stopDate = startDate.AddDays(indexPicker.Next(0, 3));
+                                var startDate = module.StartTime.AddDays(indexPicker.Next(0, dateIndex - 3)).AddHours(9);
+                                var stopDate = startDate.AddDays(indexPicker.Next(0, 3)).AddHours(8);
                                 activityModels.Add(new ActivityModel
                                 {
-                                    Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)]+" "+module.Name,
+                                    Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)] + " " + module.Name,
                                     ModuleId = module.Id,
                                     ActivityTypeId = activityTypes[activityTypeIndex].Id,
                                     Description = activityTypes[activityTypeIndex].Name + " med " + randomNames[indexPicker.Next(0, randomNames.Length - 1)] + ".",

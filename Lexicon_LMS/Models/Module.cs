@@ -18,13 +18,15 @@ namespace Lexicon_LMS.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Moduleskrivning")]
+        [Display(Name = "Modulbeskrivning")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Startdatum")]
         [DataType(DataType.Date)]
         public DateTime StartTime { get; set; }
 
+        [Required(ErrorMessage = "{0} måste anges")]
         [Display(Name = "Slutdatum")]
         [DataType(DataType.Date)]
         public DateTime EndTime { get; set; }

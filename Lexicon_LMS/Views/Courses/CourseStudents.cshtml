@@ -1,0 +1,96 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@model Lexicon_LMS.Models.Course
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Klasslista";
+
+}
+
+@if (Model != null)
+{
+
+    <h1>Klasslista för @Html.DisplayFor(model => model.Description)</h1>
+
+    <div>
+
+        @if (Model.ApplicationUsers.Count > 0)
+        {
+
+            // Lärare
+            <table class="table table-hover table-condensed w-auto">
+                <thead>
+                    <tr>
+                        <th title="Lärare">
+                            Lärare
+                        </th>
+                        <th title="E-post">
+                            E-post
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ApplicationUsers)
+                    {
+                        var roll = "";
+                        foreach (var r in await UserManager.GetRolesAsync(item.ApplicationUser))
+                        {
+                            roll = r.ToString();
+                        }
+                        @if (roll == "Teacher")
+                        {
+                            <tr>
+                                <td title="Lärarnamn.">
+                                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                                </td>
+                                <td title="Lärarens e-post.">
+                                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        <br />
+        <br />
+            // Elev
+            <table class="table table-hover table-condensed w-auto">
+                <thead>
+                    <tr>
+                        <th title="Elev">
+                            Elev
+                        </th>
+                        <th title="E-post">
+                            E-post
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ApplicationUsers)
+                    {
+                        var roll = "";
+                        foreach (var r in await UserManager.GetRolesAsync(item.ApplicationUser))
+                        {
+                            roll = r.ToString();
+                        }
+                        @if (roll == "Student")
+                        {
+                            <tr>
+                                <td title="Elevnamn.">
+                                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                                </td>
+                                <td title="Elevens e-post.">
+                                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+}
