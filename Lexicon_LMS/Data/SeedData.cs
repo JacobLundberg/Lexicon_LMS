@@ -182,8 +182,8 @@ namespace Lexicon_LMS
                             {
                                 var activityTypeIndex = indexPicker.Next(0, activityTypes.Length - 1);
                                 var dateIndex = (module.EndTime - module.StartTime).Days;
-                                var startDate = module.StartTime.AddDays(indexPicker.Next(0, dateIndex - 3));
-                                var stopDate = startDate.AddDays(indexPicker.Next(0, 3));
+                                var startDate = module.StartTime.AddDays(indexPicker.Next(0, dateIndex - 3)).AddHours(9);
+                                var stopDate = startDate.AddDays(indexPicker.Next(0, 3)).AddHours(8);
                                 activityModels.Add(new ActivityModel
                                 {
                                     Name = randomWords[indexPicker.Next(0, randomWords.Length - 1)] + " " + module.Name,
